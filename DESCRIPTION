@@ -1,0 +1,29 @@
+Package: codemogProfile
+Type: Package
+Title: Colorado State Demography Office Profile Functions
+Version: 0.1
+Date: 2015-01-27
+Author@R: person("Rob", "Kemp", email="robert.kemp@state.co.us", role=c("aut", "cre"))
+Description: This package contains helper functions for pulling data from the CODemog API and R Package.
+Imports:
+  tidyr,
+  stringr,
+  stringi,
+  codemog,
+  ggplot2,
+  car,
+  grid,
+  scales,
+  dplyr
+Depends:
+  tidyr,
+  stringr,
+  stringi,
+  codemog,
+  ggplot2,
+  car,
+  grid,
+  scales,
+  dplyr
+License: MIT
+LazyData: TRUE
