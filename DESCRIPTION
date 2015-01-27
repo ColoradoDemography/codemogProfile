@@ -14,7 +14,8 @@ Imports:
   car,
   grid,
   scales,
-  dplyr
+  dplyr,
+  robR
 Depends:
   tidyr,
   stringr,
@@ -24,6 +25,7 @@ Depends:
   car,
   grid,
   scales,
-  dplyr
+  dplyr,
+  robR
 License: MIT
 LazyData: TRUE

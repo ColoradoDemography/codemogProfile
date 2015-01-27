@@ -77,8 +77,7 @@ popr=popMuni%>%
   select(-c(placefips, totalPop))%>%
   bind_rows(popCO%>%select(-totalPop))%>%
   mutate(name=paste(name,year,"gr",sep="_"),
-         geonum=as.numeric(paste("108", fips, sep="")),
-         geoname=)%>%
+         geonum=as.numeric(paste("108", fips, sep="")))%>%
   select(-year)%>%
   spread(name,growthRate)
 
