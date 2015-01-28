@@ -8,7 +8,7 @@
 #'  @param fips2 The FIPS of the Place or County to use for comparison
 #'  @param state2 The State FIPS to use as comparison.  Defaults to CO.
 
-ms_income=function(fips, fips2="", state="08", state2="08"){
+ms_income=function(fips, fips2="", state="08", state2="08", base=12){
 require(ggplot2, quietly=TRUE)
 require(car, quietly=TRUE)
 require(stringr, quietly=TRUE)
@@ -54,7 +54,7 @@ p=hhinc%>%ggplot(aes(x=cat, y=as.numeric(p), fill=geoname))+
   scale_y_continuous(label=percent)+
   scale_fill_manual(values=c(rgb(31,74,126, max=255), rgb(192,80,77,max=255)),
                     name="Area")+
-  theme_codemog()+
+  theme_codemog(base_size=base)+
   theme(axis.text.x=element_text(angle=45, hjust=1))+
   labs(x="Income (in 2013 Dollars)", y="Percentage", title="Household Income Distribution\n Source: 2013 ACS 5-Year File")
 p
