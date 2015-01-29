@@ -10,6 +10,7 @@
 #'
 
 ms_race=function(fips, state="08"){
+  require(scales, quietly=TRUE)
   require(dplyr, quietly=TRUE)
 
   p11_10=codemog_api(data="p11", geonum=paste("1", state, fips, sep=""),meta="no")%>%
@@ -25,7 +26,7 @@ ms_race=function(fips, state="08"){
     gather(race, Census.2000, TotalPop:NHTwo, -geoname:-geonum)
 p4=inner_join(p11_10, p4_00)%>%
   mutate(Change=percent((as.numeric(Census.2010)-as.numeric(Census.2000))/as.numeric(Census.2000)),
-         comma(Census.2000),
-         comma(Census.2010))
+         Census.2000=comma(as.numeric(Census.2000)),
+         Census.2010=comma(as.numeric(Census.2010)))
 return(p4)
 }

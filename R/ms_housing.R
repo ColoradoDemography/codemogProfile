@@ -49,8 +49,8 @@ housing_00=inner_join(h3_00,h5_00)%>%inner_join(h4_00)%>%
 
 housing=inner_join(housing_00,housing_10)%>%
   mutate(Change=percent(((Census.2010-Census.2000)/Census.2000)),
-         housing_00=comma(housing_00),
-         housing_00=comma(housing_00))
+         Census.2000=comma(Census.2000),
+         Census.2010=comma(Census.2010))
 
 return(housing)
 }

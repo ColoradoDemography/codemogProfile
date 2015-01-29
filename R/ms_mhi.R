@@ -17,15 +17,18 @@ ms_mhi=function(fips, fips2="", state="08", state2="08"){
 
 mhi1=codemog_api(data="b19013",db="acs0913", geonum=paste("1", state, fips, sep=""), meta="no")%>%
   mutate(geoname=str_trim(geoname, side="both"),
-         MHI=dollar(b19013001))%>%
+         MHI=dollar(as.numeric(b19013001)))%>%
   separate(geoname, into=c("geoname", "state_name"), sep=",")%>%
   select(-state_name)
+
 mhi2=codemog_api(data="b19013",db="acs0913", geonum=paste("1", state2, fips2, sep=""), meta="no")%>%
   mutate(geoname=str_trim(geoname, side="both"),
-         MHI_CO=dollar(b19013001))%>%
+         MHI_CO=dollar(as.numeric(b19013001)))
+
 mhi3=mhi2%>%
   select(MHI_CO)
-  mhi=bind_cols(mhi1, mhi3)
+
+mhi=bind_cols(mhi1, mhi3)
 
 return(mhi)
 }

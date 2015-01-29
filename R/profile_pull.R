@@ -23,21 +23,16 @@ yrs=c(1990,1995,2000,2005,2010, 2013,2015,2020,2025,2030,2035,2040)
 ## Graphs
 # This set makes all of the graphs and saves them to the output directory
 
-ed=ms_ed(fips=fips,fips2=fips2, state=state, state2=state2, base=5.5)+theme(legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
-ggsave(filename=paste0("ed_",fips,".png"), ed, path=od, width=172, height=75, units="mm")
-edpath=paste0(od,"/ed_",fips,".png")
-age=ms_census_age(fips=fips,state=state, base=5.5)+theme(legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
+ed=ms_ed(fips=fips,fips2=fips2, state=state, state2=state2, base=6)+theme(legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
+ggsave(filename=paste0("ed_",fips,".png"), ed, path=od, width=96, height=48, units="mm")
+age=ms_census_age(fips=fips,state=state, base=6)+theme(legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
 ggsave(filename=paste0("age_",fips,".png"), age, path=od, , width=95, height=55, units="mm")
-agepath=paste0(od,"/age_",fips,".png")
-hh=ms_hh(fips=fips, state=state)+theme(legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
+hh=ms_hh(fips=fips, state=state, base=6)+theme(legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
 ggsave(filename=paste0("hh_",fips,".png"), hh, path=od, width=118, height=69, units="mm")
-hhpath=paste0(od,"/hh_",fips,".png")
-incdist=ms_income(fips=fips, fips2=fips2, state=state, state2=state2, base=5.5)+theme(legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
-ggsave(filename=paste0("incdist_",fips,".png"), incdist, path=od, width=109, height=60, units="mm")
-incdistpath=paste0(od,"/incdist_",fips,".png")
-popchart=muni_ts_chart(fips, base=5.5)+theme(legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
+incdist=ms_income(fips=fips, fips2=fips2, state=state, state2=state2, base=6)+theme(legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
+ggsave(filename=paste0("incdist_",fips,".png"), incdist, path=od, width=155, height=75, units="mm")
+popchart=muni_ts_chart(fips, base=6)+theme(legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
 ggsave(filename=paste0("popchart_",fips,".png"), popchart, path=od,width=93, height=53, units="mm")
-popchartpath=paste0(od,"/popchart_",fips,".png")
 
 ## This Section Generates the requisite Population TimeSeries
 popMuni=muni_est%>%
@@ -68,14 +63,16 @@ popCO=county_est%>%
          totalPop=comma(totalPop))
 pop=popMuni%>%
   select(-c(placefips, growthRate))%>%
+  mutate(name="muni")%>%
     bind_rows(popCO%>%select(-growthRate))%>%
   mutate(geoname=name,
          name=paste(name,year,"pop",sep="_"),
          geonum=as.numeric(paste("108", fips, sep="")))%>%
-  select(-year)%>%
+  select(-year, -geoname)%>%
   spread(name,totalPop)
 popr=popMuni%>%
   select(-c(placefips, totalPop))%>%
+  mutate(name="muni")%>%
   bind_rows(popCO%>%select(-totalPop))%>%
   mutate(name=paste(name,year,"gr",sep="_"),
          geonum=as.numeric(paste("108", fips, sep="")))%>%
@@ -100,11 +97,12 @@ df=inner_join(pop, popr, by="geonum")%>%
   inner_join(housing, by="geonum")%>%
   inner_join(race, by="geonum")%>%
   inner_join(mhi, by="geonum")%>%
-  mutate(edgraph=edpath,
-         agegraph=agepath,
-         hhgraph=hhpath,
-         incdistchart=incdistpath,
-         popchart=popchartpath)
+  mutate(ed=paste0(od,"/ed_",fips,".png"),
+         agegraph=paste0(od,"/age_",fips,".png"),
+         hhgraph=paste0(od,"/hh_",fips,".png"),
+         incdistchart=paste0(od,"/age_",fips,".png"),
+         popchart=paste0(od,"/pop_",fips,".png"))
+save.xlsx(paste("rawdata_",fips,".xlsx"), pop, popr, housing, hh$data, race, mhi, ed$data, age$data, incdist$data)
 
 return(df)
 }
