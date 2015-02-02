@@ -23,13 +23,13 @@ yrs=c(1990,1995,2000,2005,2010, 2013,2015,2020,2025,2030,2035,2040)
 ## Graphs
 # This set makes all of the graphs and saves them to the output directory
 
-ed=ms_ed(fips=fips,fips2=fips2, state=state, state2=state2, base=6)+theme(legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
+ed=ms_ed(fips=fips,fips2=fips2, state=state, state2=state2, base=6)+theme(legend.text=element_text(size=7.2), legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
 ggsave(filename=paste0("ed_",fips,".png"), ed, path=od, width=96, height=48, units="mm")
-age=ms_census_age(fips=fips,state=state, base=6)+theme(legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
+age=ms_census_age(fips=fips,state=state, base=6)+theme(legend.text=element_text(size=7.2), legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
 ggsave(filename=paste0("age_",fips,".png"), age, path=od, , width=95, height=55, units="mm")
-hh=ms_hh(fips=fips, state=state, base=6)+theme(legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
+hh=ms_hh(fips=fips, state=state, base=6)+theme(legend.text=element_text(size=7.2), legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
 ggsave(filename=paste0("hh_",fips,".png"), hh, path=od, width=118, height=69, units="mm")
-incdist=ms_income(fips=fips, fips2=fips2, state=state, state2=state2, base=6)+theme(legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
+incdist=ms_income(fips=fips, fips2=fips2, state=state, state2=state2, base=6)+theme(legend.text=element_text(size=7.2), legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
 ggsave(filename=paste0("incdist_",fips,".png"), incdist, path=od, width=155, height=75, units="mm")
 popchart=muni_ts_chart(fips, base=6)+theme(legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
 ggsave(filename=paste0("popchart_",fips,".png"), popchart, path=od,width=93, height=53, units="mm")

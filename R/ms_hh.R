@@ -26,20 +26,20 @@ p18_10=p18_10%>%
 p21_10=codemog_api(data="p21", geonum=paste("1", state, fips, sep=""),meta="no")
 p21_10[,7:ncol(p21_10)]=as.numeric(as.character(p21_10[,7:ncol(p21_10)]))
 p21_10=p21_10%>%
-  select(geoname:geonum, p21005, p21009, p21012, p21020, p21024, p21027, p21031)%>%
+  select(geoname:geonum, p21005, p21009, p21012, p21020, p21024, p21027, p21030)%>%
   mutate(Family.Kids=p21005+p21009+p21012+p21020+p21024+p21027,
-         Nonfamily.Alone.65=p21031)%>%
-  select(-p21005:-p21031)
+         Nonfamily.Alone.65=p21030)%>%
+  select(-p21005:-p21030)
 hh10=inner_join(p18_10, p21_10)%>%
   mutate(year="2010")
 
 p20_00=codemog_api(data="p20", db="c2000", geonum=paste("1", state, fips, sep=""),meta="no")
 p20_00[,7:ncol(p20_00)]=as.numeric(as.character(p20_00[,7:ncol(p20_00)]))
 p20_00=p20_00%>%
-  select(geoname:geonum,p20001, p20003, p20005, p20009, p20012, p20014, p20015, p20016, p20018, p20020, p20024, p20027, p20029, p20030, p20031)%>%
+  select(geoname:geonum,p20001, p20003, p20005, p20009, p20012, p20014, p20015, p20016, p20018, p20020, p20024, p20027, p20029, p20030, p20030)%>%
   mutate(Total=p20001, Family.Households=p20003+p20018, Nonfamily.Households=p20014+p20029, Nonfamily.Alone=p20016+p20030,
-         Family.Kids=p20005+p20009+p20012+p20020+p20024+p20027, Nonfamily.Alone.65=p20031)%>%
-  select(-p20001:-p20031)
+         Family.Kids=p20005+p20009+p20012+p20020+p20024+p20027, Nonfamily.Alone.65=p20030)%>%
+  select(-p20001:-p20030)
 
 
 hh00=p20_00%>%
