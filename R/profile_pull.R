@@ -81,12 +81,12 @@ popr=popMuni%>%
 
 ### Census Pulls Using the API
 housing=ms_housing(fips, state)%>%
-  gather(type, value,Census.2000:Change,  -geoname:-geonum)%>%
+  gather(type, value,Census.2000:Census.2010,  -geoname:-geonum)%>%
   mutate(name=paste0("hh",var,type))%>%
   select(geonum, geoname, value,name)%>%
   spread(name, value)
 race=ms_race(fips, state)%>%
-  gather(type, value,Census.2010:Change,  -geoname:-geonum)%>%
+  gather(type, value,Census.2010:Census.2000,  -geoname:-geonum)%>%
   mutate(name=paste0("race",race,type))%>%
   select(geonum, geoname, value,name)%>%
   mutate(geonum=as.numeric(geonum))%>%
