@@ -13,7 +13,7 @@ ms_race=function(fips, state="08"){
   require(scales, quietly=TRUE)
   require(dplyr, quietly=TRUE)
 
-  p11_10=codemog_api(data="p11", geonum=paste("1", state, fips, sep=""),meta="no")
+  p11_10=codemog_api(data="p7", geonum=paste("1", state, fips, sep=""),meta="no")
   p11_10[,7:ncol(p11_10)]=as.numeric(as.character(p11_10[,7:ncol(p11_10)]))
 
   p11_10=p11_10%>%
