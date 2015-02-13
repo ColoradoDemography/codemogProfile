@@ -102,7 +102,7 @@ df=inner_join(pop, popr, by="geonum")%>%
          hhgraph=paste0(od,"/hh_",fips,".png"),
          incdistchart=paste0(od,"/age_",fips,".png"),
          popchart=paste0(od,"/pop_",fips,".png"))
-save.xlsx(paste("rawdata_",fips,".xlsx"), pop, popr, housing, hh$data, race, mhi, ed$data, age$data, incdist$data)
+save.xlsx(paste(od, "rawdata_",fips,".xlsx", sep=""), pop, popr, housing, hh$data, race, mhi, ed$data, age$data, incdist$data)
 
 return(df)
 }
