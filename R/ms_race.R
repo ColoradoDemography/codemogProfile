@@ -13,15 +13,16 @@ ms_race=function(fips, state="08"){
   require(scales, quietly=TRUE)
   require(dplyr, quietly=TRUE)
 
-  p11_10=codemog_api(data="p7", geonum=paste("1", state, fips, sep=""),meta="no")
-  p11_10[,7:ncol(p11_10)]=as.numeric(as.character(p11_10[,7:ncol(p11_10)]))
+  p9_10=codemog_api(data="p9", geonum=paste("1", state, fips, sep=""),meta="no")
+  p9_10[,7:ncol(p9_10)]=as.numeric(as.character(p9_10[,7:ncol(p9_10)]))
 
-  p11_10=p11_10%>%
-    select(geoname:p11011)%>%
-    mutate(TotalPop=p11001, Hispanic=p11002, NonHispanic=p11003, NHWhite=p11005, NHBlack=p11006,
-           NHAIAN=p11007, NHAsian=p11008, NHNHOPI=p11009, NHOther=p11010, NHTwo=p11011,
+  p9_10=p9_10%>%
+    select(geoname:p9011)%>%
+    mutate(TotalPop=p9001, Hispanic=p9002, NonHispanic=p9003, NHWhite=p9005, NHBlack=p9006,
+           NHAIAN=p9007, NHAsian=p9008, NHNHOPI=p9009, NHOther=p9010, NHTwo=p9011,
            HispanicP=percent(Hispanic/TotalPop),
            NonHispanicP=percent(NonHispanic/TotalPop),
+<<<<<<< HEAD
            NHWhiteP=percent(NHWhite/TotalPop),
            NHBlackP=percent(NHBlack/TotalPop),
            NHAIANP=percent(NHAIAN/TotalPop),
@@ -32,6 +33,18 @@ ms_race=function(fips, state="08"){
            TotalPop=comma(p11001), Hispanic=comma(p11002), NonHispanic=comma(p11003), NHWhite=comma(p11005), NHBlack=comma(p11006),
            NHAIAN=comma(p11007), NHAsian=comma(p11008), NHNHOPI=comma(p11009), NHOther=comma(p11010), NHTwo=comma(p11011))%>%
     select(-p11001:-p11011)%>%
+=======
+           NHWhiteP=percent(NHWhite/NonHispanic),
+           NHBlackP=percent(NHBlack/NonHispanic),
+           NHAIANP=percent(NHAIAN/NonHispanic),
+           NHAsianP=percent(NHAsian/NonHispanic),
+           NHNHOPIP=percent(NHNHOPI/NonHispanic),
+           NHOtherP=percent(NHOther/NonHispanic),
+           NHTwoP=percent(NHTwo/NonHispanic),
+           TotalPop=comma(p9001), Hispanic=comma(p9002), NonHispanic=comma(p9003), NHWhite=comma(p9005), NHBlack=comma(p9006),
+           NHAIAN=comma(p9007), NHAsian=comma(p9008), NHNHOPI=comma(p9009), NHOther=comma(p9010), NHTwo=comma(p9011))%>%
+    select(-p9001:-p9011)%>%
+>>>>>>> 695dc301814b82e8998e2e85a8c61177e67913a0
     gather(race, Census.2010, TotalPop:NHTwoP, -geoname:-geonum)
 
   p4_00=codemog_api(data="p4", db="c2000",geonum=paste("1", state, fips, sep=""),meta="no")
@@ -53,6 +66,6 @@ ms_race=function(fips, state="08"){
            NHAIAN=comma(p4007), NHAsian=comma(p4008), NHNHOPI=comma(p4009), NHOther=comma(p4010), NHTwo=comma(p4011))%>%
     select(-p4001:-p4011)%>%
     gather(race, Census.2000, TotalPop:NHTwoP, -geoname:-geonum)
-p4=inner_join(p11_10, p4_00)
+p4=inner_join(p9_10, p4_00)
 return(p4)
 }
