@@ -22,7 +22,6 @@ ms_race=function(fips, state="08"){
            NHAIAN=p9007, NHAsian=p9008, NHNHOPI=p9009, NHOther=p9010, NHTwo=p9011,
            HispanicP=percent(Hispanic/TotalPop),
            NonHispanicP=percent(NonHispanic/TotalPop),
-<<<<<<< HEAD
            NHWhiteP=percent(NHWhite/TotalPop),
            NHBlackP=percent(NHBlack/TotalPop),
            NHAIANP=percent(NHAIAN/TotalPop),
@@ -30,21 +29,9 @@ ms_race=function(fips, state="08"){
            NHNHOPIP=percent(NHNHOPI/TotalPop),
            NHOtherP=percent(NHOther/TotalPop),
            NHTwoP=percent(NHTwo/TotalPop),
-           TotalPop=comma(p11001), Hispanic=comma(p11002), NonHispanic=comma(p11003), NHWhite=comma(p11005), NHBlack=comma(p11006),
-           NHAIAN=comma(p11007), NHAsian=comma(p11008), NHNHOPI=comma(p11009), NHOther=comma(p11010), NHTwo=comma(p11011))%>%
-    select(-p11001:-p11011)%>%
-=======
-           NHWhiteP=percent(NHWhite/NonHispanic),
-           NHBlackP=percent(NHBlack/NonHispanic),
-           NHAIANP=percent(NHAIAN/NonHispanic),
-           NHAsianP=percent(NHAsian/NonHispanic),
-           NHNHOPIP=percent(NHNHOPI/NonHispanic),
-           NHOtherP=percent(NHOther/NonHispanic),
-           NHTwoP=percent(NHTwo/NonHispanic),
            TotalPop=comma(p9001), Hispanic=comma(p9002), NonHispanic=comma(p9003), NHWhite=comma(p9005), NHBlack=comma(p9006),
            NHAIAN=comma(p9007), NHAsian=comma(p9008), NHNHOPI=comma(p9009), NHOther=comma(p9010), NHTwo=comma(p9011))%>%
     select(-p9001:-p9011)%>%
->>>>>>> 695dc301814b82e8998e2e85a8c61177e67913a0
     gather(race, Census.2010, TotalPop:NHTwoP, -geoname:-geonum)
 
   p4_00=codemog_api(data="p4", db="c2000",geonum=paste("1", state, fips, sep=""),meta="no")
