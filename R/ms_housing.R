@@ -18,7 +18,8 @@ h3_10=h3_10%>%rename(Total=h3001, Occupied=h3002, Vacant=h3003)%>%
   mutate(OccPercent=percent(Occupied/Total),
          VacPercent=percent(Vacant/Total),
          Occupied=comma(Occupied),
-         Vacant=comma(Vacant))
+         Vacant=comma(Vacant),
+         Total=comma(Total))
 
 h4_10=codemog_api(data="h4", geonum=paste("1", state, fips, sep=""),meta="no")
 h4_10[,7:ncol(h4_10)]=as.numeric(as.character(h4_10[,7:ncol(h4_10)]))
