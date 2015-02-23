@@ -59,7 +59,7 @@ popCO=county_est%>%
   group_by(year)%>%
   summarise(totalPop=sum(totalPopulation, na.rm=T))%>%
   mutate(name="Colorado",
-         growthRate=round(ann.gr(lag(totalPop), totalPop, year-lag(year)), digits=2),
+         growthRate=paste0(round(ann.gr(lag(totalPop), totalPop, year-lag(year)), digits=1),"%"),
          totalPop=comma(totalPop))
 pop=popMuni%>%
   select(-c(placefips, growthRate))%>%
@@ -100,8 +100,8 @@ df=inner_join(pop, popr, by="geonum")%>%
   mutate(ed=paste0(od,"/ed_",fips,".png"),
          agegraph=paste0(od,"/age_",fips,".png"),
          hhgraph=paste0(od,"/hh_",fips,".png"),
-         incdistchart=paste0(od,"/age_",fips,".png"),
-         popchart=paste0(od,"/pop_",fips,".png"))
+         incdistchart=paste0(od,"/incdist_",fips,".png"),
+         popchart=paste0(od,"/popchart_",fips,".png"))
 save.xlsx(paste(od, "/rawdata_",fips,".xlsx", sep=""), pop, popr, housing, hh$data, race, mhi, ed$data, age$data, incdist$data)
 
 return(df)
