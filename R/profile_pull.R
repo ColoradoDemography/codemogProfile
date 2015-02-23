@@ -18,7 +18,7 @@ require(stringi, quietly=TRUE)
 require(dplyr, quietly=TRUE)
 
 
-yrs=c(1990,1995,2000,2005,2010, 2013,2015,2020,2025,2030,2035,2040)
+yrs=c("1990","1995","2000","2005","2010", "2013","2015","2020","2025","2030","2035","2040")
 
 ## Graphs
 # This set makes all of the graphs and saves them to the output directory
@@ -36,7 +36,7 @@ ggsave(filename=paste0("popchart_",fips,".png"), popchart, path=od,width=93, hei
 
 ## This Section Generates the requisite Population TimeSeries
 popMuni=muni_est%>%
-  mutate(year=as.numeric(as.character(year)),
+  mutate(#year=as.numeric(as.character(year)),
          placefips=as.numeric(as.character(placefips)),
          geonum=as.numeric(as.character(geonum)))%>%
   select(geonum, placefips, municipality, year, totalPopulation)%>%
@@ -46,11 +46,12 @@ popMuni=muni_est%>%
   summarise(totalPop=sum(totalPopulation))%>%
   filter(placefips==as.numeric(fips))%>%
   rename(name=municipality)%>%ungroup()%>%
-  mutate(growthRate=round(ann.gr(lag(totalPop), totalPop, year-lag(year)), digits=2),
+  mutate(year=as.numeric(year),
+         growthRate=paste0(round(ann.gr(lag(totalPop), totalPop, year-lag(year)), digits=1),"%"),
          totalPop=comma(totalPop))
 
 popCO=county_est%>%
-  mutate(year=as.numeric(as.character(year)),
+  mutate(#year=as.numeric(as.character(year)),
          countyfips=as.numeric(as.character(countyfips)),
          geonum=as.numeric(as.character(geonum)))%>%
   select(geonum, countyfips, year, totalPopulation)%>%
@@ -59,6 +60,7 @@ popCO=county_est%>%
   group_by(year)%>%
   summarise(totalPop=sum(totalPopulation, na.rm=T))%>%
   mutate(name="Colorado",
+         year=as.numeric(year),
          growthRate=paste0(round(ann.gr(lag(totalPop), totalPop, year-lag(year)), digits=1),"%"),
          totalPop=comma(totalPop))
 pop=popMuni%>%
