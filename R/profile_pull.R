@@ -12,6 +12,7 @@
 #'
 ms_muni=function(fips, fips2="", state="08", state2="08", od=""){
 require(codemog, quietly=TRUE)
+require(rmarkdown, quietly=TRUE)
 require(robR, quietly=TRUE)
 require(tidyr, quietly=TRUE)
 require(stringi, quietly=TRUE)
@@ -105,7 +106,7 @@ df=inner_join(pop, popr, by="geonum")%>%
          incdistchart=paste0(od,"/incdist_",fips,".png"),
          popchart=paste0(od,"/popchart_",fips,".png"))
 save.xlsx(paste(od, "/rawdata_",fips,".xlsx", sep=""), pop, popr, housing, hh$data, race, mhi, ed$data, age$data, incdist$data)
-
+rmarkdown::render(system.file("misc", "profile_charts.Rmd", package = "codemogProfile"))
 return(df)
 }
 

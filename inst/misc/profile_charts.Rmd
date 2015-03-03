@@ -1,0 +1,32 @@
+---
+title: "Profile Pull Data"
+author: "codemog"
+date: "March 3, 2015"
+output: word_document
+---
+
+#Population
+
+```{r}
+codemog::muni_ts_chart(fips)
+codemog::ms_census_age(fips)
+
+```
+# Housing and Households
+```{r}
+codemogProfile::ms_hh(fips)
+
+```
+  
+# Income
+```{r}
+codemogProfile::ms_income(fips)
+
+```
+
+# Education
+```{r}
+codemog::ms_ed(fips)
+
+```
+
