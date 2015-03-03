@@ -2,7 +2,7 @@
 title: "Profile Pull Data"
 author: "codemog"
 date: "March 3, 2015"
-output: word_document
+output: pdf_document
 ---
 
 #Population
