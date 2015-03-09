@@ -9,7 +9,7 @@ output: html_document
 
 ```{r}
 codemog::muni_ts_chart(fips)
-codemog::ms_census_age(fips)
+codemogProfile::ms_census_age(fips)
 
 ```
 # Housing and Households
@@ -26,7 +26,7 @@ codemogProfile::ms_income(fips)
 
 # Education
 ```{r}
-codemog::ms_ed(fips)
+codemogProfile::ms_ed(fips)
 
 ```
 
