@@ -4,7 +4,7 @@
 \alias{ms_income}
 \title{Income Distribution Graph}
 \usage{
-ms_income(fips, fips2 = "", state = "08", state2 = "08")
+ms_income(fips, fips2 = "", state = "08", state2 = "08", base = 12)
 }
 \arguments{
 \item{fips}{The FIPS of the Place or County to use}
