@@ -32,6 +32,6 @@ codemogProfile::ms_ed(fips)
 
 # Jobs Timeseries
 ```{r}
-codemogProfile::ms_jobs(countyfips, county)
+codemogProfile::ms_jobs(countyfips, countyname)
 
 ```
