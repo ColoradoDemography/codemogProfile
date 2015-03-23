@@ -10,7 +10,7 @@
 #'  @param state2 The State FIPS to use as comparison.  Defaults to CO.
 #'  @param od The output directory for the graphs being created.
 #'
-ms_muni=function(fips, fips2="", state="08", state2="08", od=""){
+ms_muni=function(fips, fips2="", countyfips, state="08", state2="08", od=""){
 require(codemog, quietly=TRUE)
 require(rmarkdown, quietly=TRUE)
 require(robR, quietly=TRUE)
@@ -20,7 +20,8 @@ require(dplyr, quietly=TRUE)
 
 
 yrs=c("1990","1995","2000","2005","2010", "2013","2015","2020","2025","2030","2035","2040")
-
+countyfips=as.numeric(countyfips)
+countyname=filter(county_est, countyfips==countyfips, year==2013)%>%select(county)
 ## Graphs
 # This set makes all of the graphs and saves them to the output directory
 
@@ -34,7 +35,8 @@ incdist=ms_income(fips=fips, fips2=fips2, state=state, state2=state2, base=6)+th
 ggsave(filename=paste0("incdist_",fips,".png"), incdist, path=od, width=155, height=75, units="mm")
 popchart=muni_ts_chart(fips, base=6)+theme(legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
 ggsave(filename=paste0("popchart_",fips,".png"), popchart, path=od,width=93, height=53, units="mm")
-
+jobchart=ms_jobs(fips=countyfips, countyname=countyname, base=6)+theme(legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
+ggsave(filename=paste0("jobchart_",fips,".png"), jobchart, path=od,width=93, height=53, units="mm")
 ## This Section Generates the requisite Population TimeSeries
 popMuni=muni_est%>%
   mutate(#year=as.numeric(as.character(year)),
@@ -81,6 +83,11 @@ popr=popMuni%>%
          geonum=as.numeric(paste("108", fips, sep="")))%>%
   select(-year)%>%
   spread(name,growthRate)
+county_jobs=jobschart$data%>%
+  filter(year==2013)%>%
+  mutate(county_jobs_2013=comma(jobs,0),
+         geonum=as.numeric(paste("108", fips, sep="")))%>%
+  select(county_jobs_2013, geonum)
 
 ### Census Pulls Using the API
 housing=ms_housing(fips, state)%>%
@@ -100,12 +107,13 @@ df=inner_join(pop, popr, by="geonum")%>%
   inner_join(housing, by="geonum")%>%
   inner_join(race, by="geonum")%>%
   inner_join(mhi, by="geonum")%>%
+  inner_join(county_jobs, by="geonum")%>%
   mutate(ed=paste0(od,"/ed_",fips,".png"),
          agegraph=paste0(od,"/age_",fips,".png"),
          hhgraph=paste0(od,"/hh_",fips,".png"),
          incdistchart=paste0(od,"/incdist_",fips,".png"),
          popchart=paste0(od,"/popchart_",fips,".png"))
-save.xlsx(paste(od, "/rawdata_",fips,".xlsx", sep=""), pop, popr, housing, hh$data, race, mhi, ed$data, age$data, incdist$data)
+save.xlsx(paste(od, "/rawdata_",fips,".xlsx", sep=""), pop, popr, housing, hh$data, race, mhi, ed$data, age$data, incdist$data, jobschart$data)
 rmarkdown::render(system.file("misc", "muni_profile_charts.Rmd", package = "codemogProfile"), output_file=paste0(od,"/muniprofileCharts",fips,".html"))
 return(df)
 }
