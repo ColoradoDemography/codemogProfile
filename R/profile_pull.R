@@ -10,7 +10,7 @@
 #'  @param state2 The State FIPS to use as comparison.  Defaults to CO.
 #'  @param od The output directory for the graphs being created.
 #'
-ms_muni=function(fips, fips2="", countyfips, state="08", state2="08", od=""){
+ms_muni=function(fips, fips2="", countyfips, countyname, state="08", state2="08", od=""){
 require(codemog, quietly=TRUE)
 require(rmarkdown, quietly=TRUE)
 require(robR, quietly=TRUE)
@@ -20,8 +20,8 @@ require(dplyr, quietly=TRUE)
 
 
 yrs=c("1990","1995","2000","2005","2010", "2013","2015","2020","2025","2030","2035","2040")
-countyfips=as.numeric(countyfips)
-countyname=filter(county_est, countyfips==countyfips, year==2013)%>%select(county)
+cntynum=as.numeric(countyfips)
+countyname=county_est%>%filter(countyfips==cntynum, year==2013)%>%select(county)
 ## Graphs
 # This set makes all of the graphs and saves them to the output directory
 
@@ -113,7 +113,7 @@ df=inner_join(pop, popr, by="geonum")%>%
          hhgraph=paste0(od,"/hh_",fips,".png"),
          incdistchart=paste0(od,"/incdist_",fips,".png"),
          popchart=paste0(od,"/popchart_",fips,".png"))
-save.xlsx(paste(od, "/rawdata_",fips,".xlsx", sep=""), pop, popr, housing, hh$data, race, mhi, ed$data, age$data, incdist$data, jobschart$data)
+save.xlsx(paste(od, "/rawdata_",fips,".xlsx", sep=""), pop, popr, housing, hh$data, race, mhi, ed$data, age$data, incdist$data, jobchart$data)
 rmarkdown::render(system.file("misc", "muni_profile_charts.Rmd", package = "codemogProfile"), output_file=paste0(od,"/muniprofileCharts",fips,".html"))
 return(df)
 }
