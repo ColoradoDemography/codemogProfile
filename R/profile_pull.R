@@ -83,7 +83,7 @@ popr=popMuni%>%
          geonum=as.numeric(paste("108", fips, sep="")))%>%
   select(-year)%>%
   spread(name,growthRate)
-county_jobs=jobschart$data%>%
+county_jobs=jobchart$data%>%
   filter(year==2013)%>%
   mutate(county_jobs_2013=comma(jobs,0),
          geonum=as.numeric(paste("108", fips, sep="")))%>%
