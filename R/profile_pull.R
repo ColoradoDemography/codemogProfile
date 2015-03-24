@@ -112,7 +112,8 @@ df=inner_join(pop, popr, by="geonum")%>%
          agegraph=paste0(od,"/age_",fips,".png"),
          hhgraph=paste0(od,"/hh_",fips,".png"),
          incdistchart=paste0(od,"/incdist_",fips,".png"),
-         popchart=paste0(od,"/popchart_",fips,".png"))
+         popchart=paste0(od,"/popchart_",fips,".png"),
+         jobchart=paste0(od,"/jobchart_",fips,".png"))
 save.xlsx(paste(od, "/rawdata_",fips,".xlsx", sep=""), pop, popr, housing, hh$data, race, mhi, ed$data, age$data, incdist$data, jobchart$data)
 rmarkdown::render(system.file("misc", "muni_profile_charts.Rmd", package = "codemogProfile"), output_file=paste0(od,"/muniprofileCharts",fips,".html"))
 return(df)
