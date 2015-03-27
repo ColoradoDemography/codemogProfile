@@ -4,6 +4,7 @@
 #' use in profiles.  Included here as more of an example.
 #'
 #' @param fips is the fips code for the county being examined
+#' @param countyname  This parameter puts the name of the county in the chart
 #' @param base is the abse text size for the ggplot2 object and codemog_theme()
 ms_jobs=function(fips, countyname, base=12){
   require(car, quietly=TRUE)
