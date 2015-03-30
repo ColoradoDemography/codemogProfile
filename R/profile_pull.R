@@ -37,6 +37,10 @@ popchart=muni_ts_chart(fips, base=6)+theme(legend.key.size=unit(1, "mm"), legend
 ggsave(filename=paste0("popchart_",fips,".png"), popchart, path=od,width=93, height=53, units="mm")
 jobchart=ms_jobs(fips=countyfips, countyname=countyname, base=6)+theme(legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"), plot.title = element_text(hjust = 0, size = rel(1.25), face = "bold"))
 ggsave(filename=paste0("jobchart_",fips,".png"), jobchart, path=od,width=93, height=53, units="mm")
+forecastchart=ms_forecast(fips=countyfips, base=6)+theme(legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"), plot.title = element_text(hjust = 0, size = rel(1.25), face = "bold"))
+ggsave(filename=paste0("forecastchart_",fips,".png"), forecastchart, path=od,width=93, height=53, units="mm")
+popagechart=ms_popage(fips=countyfips, base=6)+theme(legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"), plot.title = element_text(hjust = 0, size = rel(1.25), face = "bold"))
+ggsave(filename=paste0("popagechart_",fips,".png"), popagechart, path=od,width=93, height=53, units="mm")
 ## This Section Generates the requisite Population TimeSeries
 popMuni=muni_est%>%
   mutate(#year=as.numeric(as.character(year)),
@@ -113,7 +117,9 @@ df=inner_join(pop, popr, by="geonum")%>%
          hhgraph=paste0(od,"/hh_",fips,".png"),
          incdistchart=paste0(od,"/incdist_",fips,".png"),
          popchart=paste0(od,"/popchart_",fips,".png"),
-         jobchart=paste0(od,"/jobchart_",fips,".png"))
+         jobchart=paste0(od,"/jobchart_",fips,".png"),
+         forecastchart=paste0(od,"/forecastchart_",fips,".png"),
+         popagechart=paste0(od,"/popagechart_",fips,".png"))
 save.xlsx(paste(od, "/rawdata_",fips,".xlsx", sep=""), pop, popr, housing, hh$data, race, mhi, ed$data, age$data, incdist$data, jobchart$data)
 rmarkdown::render(system.file("misc", "muni_profile_charts.Rmd", package = "codemogProfile"), output_file=paste0(od,"/muniprofileCharts",fips,".html"))
 return(df)
