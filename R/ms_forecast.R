@@ -15,7 +15,8 @@ require(tidyr, quietly=TRUE)
 require(dplyr, quietly=TRUE)
 
 fips=as.numeric(fips)
-
+jobsfips=ifelse(fips==1|fips==5|fips==13|fips==14| fips==31|fips==35|
+                             fips==59, 500, fips)
 yrs=c("2005", "2010", "2015", "2020", "2025", "2030")
 
 j=jobs_forecast%>%
@@ -25,6 +26,9 @@ j=jobs_forecast%>%
          jobChangep=jobChange/lag(totalJobs))
 p=county_forecast%>%
   filter(year %in% yrs)%>%
+  mutate(countyfips=ifelse(countyfips==1|countyfips==5|countyfips==13|countyfips==14| countyfips==31|countyfips==35|
+                           countyfips==59, 500, as.numeric(countyfips)),
+         county=ifelse(countyfips==500, "Denver Metropolitan Area", county))%>%
   group_by(countyfips, county, year)%>%
   summarise(totalPopulation=sum(totalPopulation))%>%
   arrange(countyfips, year)%>%
@@ -33,7 +37,7 @@ p=county_forecast%>%
 d=inner_join(j,p)%>%
   select(countyfips, county, year, jobChange, popChange)%>%
   gather(variable, value, -countyfips, -year, -county)%>%
-  filter(countyfips==fips, year>2005)
+  filter(countyfips==jobsfips, year>2005)
 
 gg=d%>%
   ggplot(aes(x=year, y=value, fill=variable))+
@@ -44,6 +48,7 @@ gg=d%>%
                     breaks=c("jobChange", "popChange"),
                     labels=c("Job Change","Population Change"))+
   theme_codemog(base_size=base)+
+  theme(plot.title = element_text(hjust = 0, size = rel(1.25), face = "bold"))+
   labs(x="Year", y="Change", title=paste0(d$county," County Forecast Change in Population and Jobs 2010 to 2025\nSource:State Demography Office"))
 return(gg)
 }
