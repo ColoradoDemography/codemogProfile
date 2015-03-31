@@ -49,6 +49,6 @@ gg=d%>%
                     labels=c("Job Change","Population Change"))+
   theme_codemog(base_size=base)+
   theme(plot.title = element_text(hjust = 0, size = rel(1.25), face = "bold"))+
-  labs(x="Year", y="Change", title=paste0(d$county," County Forecast Change in Population and Jobs 2010 to 2025\nSource:State Demography Office"))
+  labs(x="Year", y="Change", title=paste0(d$county," County\nForecast Change in Population and Jobs 2010 to 2025\nSource:State Demography Office"))
 return(gg)
 }
