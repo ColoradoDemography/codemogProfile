@@ -37,7 +37,7 @@ p=d%>%
   scale_y_continuous(label=comma)+
   theme_codemog(base_size=base)+
   theme(axis.text.x=element_text(angle=45, hjust=1))+
-  labs(x="Age Group", y="Population Change", title=paste0(d$county," County Forecast Change in Population by Age 2015 to 2025\nSource:State Demography Office"))
+  labs(x="Age Group", y="Population Change", title=paste0(d$county," County Forecast\nChange in Population by Age 2015 to 2025\nSource:State Demography Office"))
 
 
 return(p)
