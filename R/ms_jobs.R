@@ -16,7 +16,7 @@ ms_jobs=function(fips, countyname, base=12){
   require(dplyr, quietly=TRUE)
 
   total_jobs=county_jobs%>%
-    filter(countyfips==as.numeric(fips),sector_id=="00000")%>%
+    filter(countyfips==as.numeric(fips),sector_id==0)%>%
     mutate(jobs=recode(jobs, "'S'=NA"),
            jobs=round(jobs,0))%>%
     ggplot(aes(x=year, y=jobs, group=countyfips))+
