@@ -5,7 +5,7 @@
 #' @param fips is the fips code for the county being examined
 #' @param base is the base text size for the ggplot2 object and codemog_theme()
 #'
-ms_popage=function(fips, base=12){
+ms_popage=function(fips, base=12, agegroup="ten"){
 
 require(car, quietly=TRUE)
 require(codemog, quietly=TRUE)
@@ -20,7 +20,7 @@ fips=as.numeric(fips)
 yrs=c("2015", "2025")
 
 d=county_forecast%>%
-  mutate(agecat=age.cat(county_forecast, "age", groups="five"))%>%
+  mutate(agecat=age.cat(county_forecast, "age", groups=agegroup))%>%
   group_by(countyfips,county, year, agecat)%>%
   summarise(totalPopulation=sum(totalPopulation))%>%
   ungroup()%>%
