@@ -12,6 +12,7 @@
 #'
 ms_muni=function(fips, fips2="", countyfips, countyname, state="08", state2="08", od=""){
 require(codemog, quietly=TRUE)
+require(scales, quietly=TRUE)
 require(rmarkdown, quietly=TRUE)
 require(robR, quietly=TRUE)
 require(tidyr, quietly=TRUE)
@@ -19,7 +20,7 @@ require(stringi, quietly=TRUE)
 require(dplyr, quietly=TRUE)
 
 
-yrs=c("1990","1995","2000","2005","2010", "2013","2015","2020","2025","2030","2035","2040")
+yrs=c("1990","1995","2000","2010", "2013","2015","2020","2025","2030","2035","2040")
 cntynum=as.numeric(countyfips)
 countyname=county_est%>%filter(countyfips==cntynum, year==2013)%>%select(county)
 ## Graphs
@@ -70,10 +71,25 @@ popCO=county_est%>%
          year=as.numeric(year),
          growthRate=paste0(round(ann.gr(lag(totalPop), totalPop, year-lag(year)), digits=1),"%"),
          totalPop=comma(totalPop))
+popCounty=county_est%>%
+  mutate(#year=as.numeric(as.character(year)),
+    countyfips=as.numeric(as.character(countyfips)),
+    geonum=as.numeric(as.character(geonum)))%>%
+  select(geonum, countyfips, year, totalPopulation)%>%
+  bind_rows(county_hist%>%select(-c(datatype, county)))%>%
+  filter(year %in% yrs, countyfips==71)%>%
+  arrange(year)%>%
+  mutate(name="Las Animas",
+         year=as.numeric(year),
+         totalPop=totalPopulation,
+         growthRate=paste0(round(ann.gr(lag(totalPop), totalPop, year-lag(year)), digits=1),"%"),
+         totalPop=comma(totalPop))
 pop=popMuni%>%
   select(-c(placefips, growthRate))%>%
   mutate(name="muni")%>%
     bind_rows(popCO%>%select(-growthRate))%>%
+  bind_rows(popCounty%>%select(-c(countyfips, growthRate, totalPopulation))%>%
+              mutate(name="county"))%>%
   mutate(geoname=name,
          name=paste(name,year,"pop",sep="_"),
          geonum=as.numeric(paste("108", fips, sep="")))%>%
@@ -83,15 +99,22 @@ popr=popMuni%>%
   select(-c(placefips, totalPop))%>%
   mutate(name="muni")%>%
   bind_rows(popCO%>%select(-totalPop))%>%
+  bind_rows(popCounty%>%select(-c(countyfips, totalPop, totalPopulation))%>%
+              mutate(name="county"))%>%
   mutate(name=paste(name,year,"gr",sep="_"),
          geonum=as.numeric(paste("108", fips, sep="")))%>%
   select(-year)%>%
   spread(name,growthRate)
+
 county_jobs=jobchart$data%>%
   filter(year==2013)%>%
   mutate(county_jobs_2013=comma(jobs,0),
          geonum=as.numeric(paste("108", fips, sep="")))%>%
   select(county_jobs_2013, geonum)
+coli=county_coli%>%
+  filter(countyfips==71)%>%
+  mutate(coli_level=paste(coli, level, sep=", "))%>%
+  select(coli_level)
 
 ### Census Pulls Using the API
 housing=ms_housing(fips, state)%>%
@@ -112,7 +135,8 @@ df=inner_join(pop, popr, by="geonum")%>%
   inner_join(race, by="geonum")%>%
   inner_join(mhi, by="geonum")%>%
   inner_join(county_jobs, by="geonum")%>%
-  mutate(ed=paste0(od,"/ed_",fips,".png"),
+  mutate(coli_level=coli$coli_level,
+         ed=paste0(od,"/ed_",fips,".png"),
          agegraph=paste0(od,"/age_",fips,".png"),
          hhgraph=paste0(od,"/hh_",fips,".png"),
          incdistchart=paste0(od,"/incdist_",fips,".png"),
