@@ -106,7 +106,7 @@ popr=popMuni%>%
   select(-year)%>%
   spread(name,growthRate)
 
-county_jobs=jobchart$data%>%
+countyjobs=jobchart$data%>%
   filter(year==2013)%>%
   mutate(county_jobs_2013=comma(jobs,0),
          geonum=as.numeric(paste("108", fips, sep="")))%>%
@@ -134,7 +134,7 @@ df=inner_join(pop, popr, by="geonum")%>%
   inner_join(housing, by="geonum")%>%
   inner_join(race, by="geonum")%>%
   inner_join(mhi, by="geonum")%>%
-  inner_join(county_jobs, by="geonum")%>%
+  inner_join(countyjobs, by="geonum")%>%
   mutate(coli_level=coli$coli_level,
          ed=paste0(od,"/ed_",fips,".png"),
          agegraph=paste0(od,"/age_",fips,".png"),
