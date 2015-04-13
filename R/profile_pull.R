@@ -145,7 +145,7 @@ df=inner_join(pop, popr, by="geonum")%>%
          forecastchart=paste0(od,"/forecastchart_",fips,".png"),
          popagechart=paste0(od,"/popagechart_",fips,".png"))
 save.xlsx(paste(od, "/rawdata_",fips,".xlsx", sep=""), pop, popr, housing, hh$data, race, mhi, ed$data, age$data, incdist$data, jobchart$data)
-rmarkdown::render(system.file("misc", "muni_profile_charts.Rmd", package = "codemogProfile"), output_file=paste0(od,"/muniprofileCharts",fips,".html"))
+# rmarkdown::render(system.file("misc", "muni_profile_charts.Rmd", package = "codemogProfile"), output_file=paste0(od,"/muniprofileCharts",fips,".html"))
 return(df)
 }
 
