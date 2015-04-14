@@ -77,9 +77,9 @@ popCounty=county_est%>%
     geonum=as.numeric(as.character(geonum)))%>%
   select(geonum, countyfips, year, totalPopulation)%>%
   bind_rows(county_hist%>%select(-c(datatype, county)))%>%
-  filter(year %in% yrs, countyfips==71)%>%
+  filter(year %in% yrs, countyfips==cntynum)%>%
   arrange(year)%>%
-  mutate(name="Las Animas",
+  mutate(name=countyname,
          year=as.numeric(year),
          totalPop=totalPopulation,
          growthRate=paste0(round(ann.gr(lag(totalPop), totalPop, year-lag(year)), digits=1),"%"),
@@ -143,7 +143,8 @@ df=inner_join(pop, popr, by="geonum")%>%
          popchart=paste0(od,"/popchart_",fips,".png"),
          jobchart=paste0(od,"/jobchart_",fips,".png"),
          forecastchart=paste0(od,"/forecastchart_",fips,".png"),
-         popagechart=paste0(od,"/popagechart_",fips,".png"))
+         popagechart=paste0(od,"/popagechart_",fips,".png"),
+         countyName=countyname)
 save.xlsx(paste(od, "/rawdata_",fips,".xlsx", sep=""), pop, popr, housing, hh$data, race, mhi, ed$data, age$data, incdist$data, jobchart$data)
 # rmarkdown::render(system.file("misc", "muni_profile_charts.Rmd", package = "codemogProfile"), output_file=paste0(od,"/muniprofileCharts",fips,".html"))
 return(df)
