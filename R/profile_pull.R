@@ -112,7 +112,7 @@ countyjobs=jobchart$data%>%
          geonum=as.numeric(paste("108", fips, sep="")))%>%
   select(county_jobs_2013, geonum)
 coli=county_coli%>%
-  filter(countyfips==71)%>%
+  filter(countyfips==as.numeric(countyfips))%>%
   mutate(coli_level=paste(coli, level, sep=", "))%>%
   select(coli_level)
 
