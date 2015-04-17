@@ -55,8 +55,10 @@ popMuni=muni_est%>%
   filter(placefips==as.numeric(fips))%>%
   rename(name=municipality)%>%ungroup()%>%
   mutate(year=as.numeric(year),
+         popChange=comma(totalPop-lag(totaPop)),
          growthRate=paste0(round(ann.gr(lag(totalPop), totalPop, year-lag(year)), digits=1),"%"),
          totalPop=comma(totalPop))
+muni_pop_chng1013=popMuni%>%filter(year==2013)%>%select(popChange)
 
 popCO=county_est%>%
   mutate(#year=as.numeric(as.character(year)),
@@ -79,7 +81,7 @@ popCounty=county_est%>%
   bind_rows(county_hist%>%select(-c(datatype, county)))%>%
   filter(year %in% yrs, countyfips==cntynum)%>%
   arrange(year)%>%
-  mutate(name=countyname,
+  mutate(name=countyname$county,
          year=as.numeric(year),
          totalPop=totalPopulation,
          growthRate=paste0(round(ann.gr(lag(totalPop), totalPop, year-lag(year)), digits=1),"%"),
@@ -136,6 +138,7 @@ df=inner_join(pop, popr, by="geonum")%>%
   inner_join(mhi, by="geonum")%>%
   inner_join(countyjobs, by="geonum")%>%
   mutate(coli_level=coli$coli_level,
+         munichng_1013=muni_pop_chng1013$popChange,
          ed=paste0(od,"/ed_",fips,".png"),
          agegraph=paste0(od,"/age_",fips,".png"),
          hhgraph=paste0(od,"/hh_",fips,".png"),
@@ -144,7 +147,7 @@ df=inner_join(pop, popr, by="geonum")%>%
          jobchart=paste0(od,"/jobchart_",fips,".png"),
          forecastchart=paste0(od,"/forecastchart_",fips,".png"),
          popagechart=paste0(od,"/popagechart_",fips,".png"),
-         countyName=countyname)
+         countyName=countyname$county)
 save.xlsx(paste(od, "/rawdata_",fips,".xlsx", sep=""), pop, popr, housing, hh$data, race, mhi, ed$data, age$data, incdist$data, jobchart$data)
 # rmarkdown::render(system.file("misc", "muni_profile_charts.Rmd", package = "codemogProfile"), output_file=paste0(od,"/muniprofileCharts",fips,".html"))
 return(df)
