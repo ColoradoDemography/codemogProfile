@@ -120,7 +120,8 @@ require(dplyr, quietly=TRUE)
 
   forecastnumbers=forecastchart$data%>%
     mutate(name=paste(variable,year,sep="_"),
-           econ_name=county)%>%
+           econ_name=county,
+           value=comma(value,0))%>%
     select(econ_name,name, value)%>%
     spread(name,value)
   ### Census Pulls Using the API
