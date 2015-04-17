@@ -11,6 +11,7 @@
 
 ms_hh=function(fips, base=12, state="08"){
 require(ggplot2, quietly=TRUE)
+require(stringi, quietly=TRUE)
 require(car, quietly=TRUE)
 require(grid, quietly=TRUE)
 require(scales, quietly=TRUE)
@@ -58,7 +59,7 @@ p=hh%>%ggplot(aes(x=var, y=Value, fill=year))+
   scale_fill_manual(values=c(rgb(31,74,126, max=255), rgb(192,80,77,max=255)),
                     name="Census Year")+
   scale_y_continuous(labels=comma)+
-  labs(x="Household Type", y="Number of Households", title=paste(hh$geoname, "Household Types\n Source: Census 2000 and 2010"))
+  labs(x="Household Type", y="Number of Households", title=paste(stri_trans_general(hh$geoname, id="Title"), "Household Types\n Source: Census 2000 and 2010"))
 return(p)
 }
 
