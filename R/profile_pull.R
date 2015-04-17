@@ -55,7 +55,7 @@ popMuni=muni_est%>%
   filter(placefips==as.numeric(fips))%>%
   rename(name=municipality)%>%ungroup()%>%
   mutate(year=as.numeric(year),
-         popChange=comma(totalPop-lag(totaPop)),
+         popChange=comma(totalPop-lag(totalPop)),
          growthRate=paste0(round(ann.gr(lag(totalPop), totalPop, year-lag(year)), digits=1),"%"),
          totalPop=comma(totalPop))
 muni_pop_chng1013=popMuni%>%filter(year==2013)%>%select(popChange)
