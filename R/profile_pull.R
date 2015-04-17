@@ -118,6 +118,11 @@ coli=county_coli%>%
   mutate(coli_level=paste(coli, level, sep=", "))%>%
   select(coli_level)
 
+forecastnumbers=forecastchart$data%>%
+  mutate(name=paste(variable,year,sep="_"),
+         econ_name=county)%>%
+  select(econ_name,name, value)%>%
+  spread(name,value)
 ### Census Pulls Using the API
 housing=ms_housing(fips, state)%>%
   gather(type, value,Census.2000:Census.2010,  -geoname:-geonum)%>%
@@ -137,6 +142,7 @@ df=inner_join(pop, popr, by="geonum")%>%
   inner_join(race, by="geonum")%>%
   inner_join(mhi, by="geonum")%>%
   inner_join(countyjobs, by="geonum")%>%
+  bind_cols(forecastnumbers)%>%
   mutate(coli_level=coli$coli_level,
          munichng_1013=muni_pop_chng1013$popChange,
          ed=paste0(od,"/ed_",fips,".png"),
