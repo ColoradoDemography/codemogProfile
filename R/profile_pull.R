@@ -117,23 +117,16 @@ require(dplyr, quietly=TRUE)
     filter(countyfips==cntynum)%>%
     mutate(coli_level=paste(coli, level, sep=", "))%>%
     select(coli_level)
+  yrs_f=c("2005", "2010", "2015", "2020", "2025", "2030")
 
-  forecastnumbers=forecastchart$data%>%
-    mutate(name=paste(variable,year,sep="_"),
-           econ_name=county,
-           value=comma(value,0))%>%
-    select(econ_name,name, value)%>%
-    spread(name,value)
-
-  jobsfips=ifelse(fips==1|fips==5|fips==13|fips==14| fips==31|fips==35|
-                    fips==59, 500, fips)
   j=jobs_forecast%>%
-    filter(year %in% c("2005", "2010", "2015", "2020", "2025", "2030"))%>%
+    filter(year %in% yrs_f)%>%
     arrange(countyfips,year)%>%
-    mutate(jobChange=as.numeric(totalJobs-lag(totalJobs)),
+    mutate(cntyfips=countyfips,
+           jobChange=as.numeric(totalJobs-lag(totalJobs)),
            jobChangep=jobChange/lag(totalJobs))
   p=county_forecast%>%
-    filter(year %in% c("2005", "2010", "2015", "2020", "2025", "2030"))%>%
+    filter(year %in% yrs_f)%>%
     mutate(countyfips=ifelse(countyfips==1|countyfips==5|countyfips==13|countyfips==14| countyfips==31|countyfips==35|
                                countyfips==59, 500, as.numeric(countyfips)),
            county=ifelse(countyfips==500, "Denver Metropolitan Area", county))%>%
@@ -142,10 +135,25 @@ require(dplyr, quietly=TRUE)
     arrange(countyfips, year)%>%
     mutate(popChange=totalPopulation-lag(totalPopulation),
            popChangep=popChange/lag(totalPopulation))
-  d=inner_join(j,p)%>%
-    select(countyfips, county, year, totalJobs, totalPopulation)%>%
+  popjobsforecast=inner_join(j,p)%>%
+    select(countyfips, county, year,totalPopulation, totalJobs)%>%
     gather(variable, value, -countyfips, -year, -county)%>%
-    filter(countyfips==jobsfips, year>2005)
+    filter(countyfips==cntynum, year>2005)%>%
+    mutate(econ_name="county",
+           name=paste(econ_name, variable, year, sep="_"),
+           value=comma(value,0))%>%
+    select(name, value, econ_name)%>%
+    spread(name, value)
+
+
+  forecastnumbers=forecastchart$data%>%
+    mutate(name=paste(variable,year,sep="_"),
+           econ_name=county,
+           value=comma(value,0))%>%
+    select(econ_name,name, value)%>%
+    spread(name,value)
+
+
   ### Census Pulls Using the API
   housing=ms_housing(fips, state)%>%
     gather(type, value,Census.2000:Census.2010,  -geoname:-geonum)%>%
@@ -166,6 +174,7 @@ require(dplyr, quietly=TRUE)
     inner_join(mhi, by="geonum")%>%
     inner_join(countyjobs, by="geonum")%>%
     bind_cols(forecastnumbers)%>%
+    bind_cols(popjobsforecast)%>%
     mutate(coli_level=coli$coli_level,
            munichng_1013=muni_pop_chng1013$popChange,
            ed=paste0(od,"/ed_",fips,".png"),
@@ -291,6 +300,35 @@ cp_county=function(fips, fips2="", state="08", state2="08", od=""){
            value=comma(value,0))%>%
     select(econ_name,name, value)%>%
     spread(name,value)
+
+  yrs_f=c("2005", "2010", "2015", "2020", "2025", "2030")
+
+  j=jobs_forecast%>%
+    filter(year %in% yrs_f)%>%
+    arrange(countyfips,year)%>%
+    mutate(cntyfips=countyfips,
+           jobChange=as.numeric(totalJobs-lag(totalJobs)),
+           jobChangep=jobChange/lag(totalJobs))
+  p=county_forecast%>%
+    filter(year %in% yrs_f)%>%
+    mutate(countyfips=ifelse(countyfips==1|countyfips==5|countyfips==13|countyfips==14| countyfips==31|countyfips==35|
+                               countyfips==59, 500, as.numeric(countyfips)),
+           county=ifelse(countyfips==500, "Denver Metropolitan Area", county))%>%
+    group_by(countyfips, county, year)%>%
+    summarise(totalPopulation=sum(totalPopulation))%>%
+    arrange(countyfips, year)%>%
+    mutate(popChange=totalPopulation-lag(totalPopulation),
+           popChangep=popChange/lag(totalPopulation))
+  popjobsforecast=inner_join(j,p)%>%
+    select(countyfips, county, year,totalPopulation, totalJobs)%>%
+    gather(variable, value, -countyfips, -year, -county)%>%
+    filter(countyfips==cntynum, year>2005)%>%
+    mutate(econ_name="county",
+           name=paste(econ_name, variable, year, sep="_"),
+           value=comma(value,0))%>%
+    select(name, value, econ_name)%>%
+    spread(name, value)
+
   ### Census Pulls Using the API
   housing=ms_housing(fips, state)%>%
     gather(type, value,Census.2000:Census.2010,  -geoname:-geonum)%>%
@@ -311,6 +349,7 @@ cp_county=function(fips, fips2="", state="08", state2="08", od=""){
     inner_join(mhi, by="geonum")%>%
     inner_join(countyjobs, by="geonum")%>%
     bind_cols(forecastnumbers)%>%
+    bind_cols(popjobsforecast)%>%
     mutate(coli_level=coli$coli_level,
            countychng_1013=county_pop_chng1013$popChange,
            ed=paste0(od,"/ed_",fips,".png"),
