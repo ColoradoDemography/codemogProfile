@@ -237,7 +237,7 @@ cp_county=function(fips, fips2="", state="08", state2="08", od=""){
            totalPop=comma(totalPop))
   county_pop_chng1013=popCounty%>%filter(year==2013)%>%select(popChange)
   pop=popCounty%>%
-    select(-c(countyfips, growthRate, totalPopulation))%>%
+    select(-c(countyfips, growthRate, totalPopulation, popChange))%>%
     mutate(name="county")%>%
     bind_rows(popCO%>%select(-growthRate))%>%
     mutate(geoname=name,
@@ -245,7 +245,7 @@ cp_county=function(fips, fips2="", state="08", state2="08", od=""){
            geonum=as.numeric(paste("108", fips, sep="")))%>%
     select(-year, -geoname)%>%
     spread(name,totalPop)
-  popr=popCounty%>%select(-c(countyfips, totalPop, totalPopulation))%>%
+  popr=popCounty%>%select(-c(countyfips, totalPop, totalPopulation, popChange))%>%
     mutate(name="county")%>%
     bind_rows(popCO%>%select(-totalPop))%>%
     mutate(name=paste(name,year,"gr",sep="_"),
