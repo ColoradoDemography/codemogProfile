@@ -124,6 +124,28 @@ require(dplyr, quietly=TRUE)
            value=comma(value,0))%>%
     select(econ_name,name, value)%>%
     spread(name,value)
+
+  jobsfips=ifelse(fips==1|fips==5|fips==13|fips==14| fips==31|fips==35|
+                    fips==59, 500, fips)
+  j=jobs_forecast%>%
+    filter(year %in% c("2005", "2010", "2015", "2020", "2025", "2030"))%>%
+    arrange(countyfips,year)%>%
+    mutate(jobChange=as.numeric(totalJobs-lag(totalJobs)),
+           jobChangep=jobChange/lag(totalJobs))
+  p=county_forecast%>%
+    filter(year %in% c("2005", "2010", "2015", "2020", "2025", "2030"))%>%
+    mutate(countyfips=ifelse(countyfips==1|countyfips==5|countyfips==13|countyfips==14| countyfips==31|countyfips==35|
+                               countyfips==59, 500, as.numeric(countyfips)),
+           county=ifelse(countyfips==500, "Denver Metropolitan Area", county))%>%
+    group_by(countyfips, county, year)%>%
+    summarise(totalPopulation=sum(totalPopulation))%>%
+    arrange(countyfips, year)%>%
+    mutate(popChange=totalPopulation-lag(totalPopulation),
+           popChangep=popChange/lag(totalPopulation))
+  d=inner_join(j,p)%>%
+    select(countyfips, county, year, totalJobs, totalPopulation)%>%
+    gather(variable, value, -countyfips, -year, -county)%>%
+    filter(countyfips==jobsfips, year>2005)
   ### Census Pulls Using the API
   housing=ms_housing(fips, state)%>%
     gather(type, value,Census.2000:Census.2010,  -geoname:-geonum)%>%
