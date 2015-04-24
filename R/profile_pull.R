@@ -118,7 +118,8 @@ require(dplyr, quietly=TRUE)
     mutate(coli_level=paste(coli, level, sep=", "))%>%
     select(coli_level)
   yrs_f=c("2005", "2010", "2015", "2020", "2025", "2030")
-
+  jobsfips=ifelse(countyfips==1|countyfips==5|countyfips==13|countyfips==14| countyfips==31|countyfips==35|
+                    countyfips==59, 500, countyfips)
   j=jobs_forecast%>%
     filter(year %in% yrs_f)%>%
     arrange(countyfips,year)%>%
@@ -138,7 +139,7 @@ require(dplyr, quietly=TRUE)
   popjobsforecast=inner_join(j,p)%>%
     select(countyfips, county, year,totalPopulation, totalJobs)%>%
     gather(variable, value, -countyfips, -year, -county)%>%
-    filter(countyfips==cntynum, year>2005)%>%
+    filter(countyfips==jobsfips, year>2005)%>%
     mutate(econ_name="county",
            name=paste(econ_name, variable, year, sep="_"),
            value=comma(value,0))%>%
@@ -302,7 +303,8 @@ cp_county=function(fips, fips2="", state="08", state2="08", od=""){
     spread(name,value)
 
   yrs_f=c("2005", "2010", "2015", "2020", "2025", "2030")
-
+  jobsfips=ifelse(countyfips==1|countyfips==5|countyfips==13|countyfips==14| countyfips==31|countyfips==35|
+                    countyfips==59, 500, countyfips)
   j=jobs_forecast%>%
     filter(year %in% yrs_f)%>%
     arrange(countyfips,year)%>%
@@ -322,7 +324,7 @@ cp_county=function(fips, fips2="", state="08", state2="08", od=""){
   popjobsforecast=inner_join(j,p)%>%
     select(countyfips, county, year,totalPopulation, totalJobs)%>%
     gather(variable, value, -countyfips, -year, -county)%>%
-    filter(countyfips==cntynum, year>2005)%>%
+    filter(countyfips==jobsfips, year>2005)%>%
     mutate(econ_name="county",
            name=paste(econ_name, variable, year, sep="_"),
            value=comma(value,0))%>%
