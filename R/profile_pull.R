@@ -140,10 +140,10 @@ require(dplyr, quietly=TRUE)
     select(countyfips, county, year,totalPopulation, totalJobs)%>%
     gather(variable, value, -countyfips, -year, -county)%>%
     filter(countyfips==jobsfips, year>2005)%>%
-    mutate(econ_name="county",
-           name=paste(econ_name, variable, year, sep="_"),
+    mutate(forecast_name="county",
+           name=paste(forecast_name, variable, year, sep="_"),
            value=comma(value,0))%>%
-    select(name, value, econ_name)%>%
+    select(name, value, forecast_name)%>%
     spread(name, value)
 
 
@@ -325,10 +325,10 @@ cp_county=function(fips, fips2="", state="08", state2="08", od=""){
     select(countyfips, county, year,totalPopulation, totalJobs)%>%
     gather(variable, value, -countyfips, -year, -county)%>%
     filter(countyfips==jobsfips, year>2005)%>%
-    mutate(econ_name="county",
-           name=paste(econ_name, variable, year, sep="_"),
+    mutate(forecast_name="county",
+           name=paste(forecast_name, variable, year, sep="_"),
            value=comma(value,0))%>%
-    select(name, value, econ_name)%>%
+    select(name, value, forecast_name)%>%
     spread(name, value)
 
   ### Census Pulls Using the API
