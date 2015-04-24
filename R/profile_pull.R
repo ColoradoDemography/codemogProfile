@@ -290,7 +290,7 @@ cp_county=function(fips, fips2="", state="08", state2="08", od=""){
     inner_join(countyjobs, by="geonum")%>%
     bind_cols(forecastnumbers)%>%
     mutate(coli_level=coli$coli_level,
-           countychng_1013=muni_pop_chng1013$popChange,
+           countychng_1013=county_pop_chng1013$popChange,
            ed=paste0(od,"/ed_",fips,".png"),
            agegraph=paste0(od,"/age_",fips,".png"),
            hhgraph=paste0(od,"/hh_",fips,".png"),
