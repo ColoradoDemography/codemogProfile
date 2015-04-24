@@ -230,9 +230,9 @@ cp_county=function(fips, fips2="", state="08", state2="08", od=""){
     filter(year %in% yrs, countyfips==cntynum)%>%
     arrange(year)%>%
     mutate(name=countyname$county,
-           popChange=comma(totalPop-lag(totalPop)),
            year=as.numeric(year),
            totalPop=totalPopulation,
+           popChange=comma(totalPop-lag(totalPop)),
            growthRate=paste0(round(ann.gr(lag(totalPop), totalPop, year-lag(year)), digits=1),"%"),
            totalPop=comma(totalPop))
   county_pop_chng1013=popCounty%>%filter(year==2013)%>%select(popChange)
