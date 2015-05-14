@@ -40,7 +40,7 @@ ms_race=function(fips, state="08"){
     select(geoname:p4011)%>%
     mutate(TotalPop=p4001, Hispanic=p4002, NonHispanic=p4003, NHWhite=p4005, NHBlack=p4006,
            NHAIAN=p4007, NHAsian=p4008, NHNHOPI=p4009, NHOther=p4010, NHTwo=p4011,
-           HispanicP=percent(round(Hispanic/TotalPop.3)),
+           HispanicP=percent(round(Hispanic/TotalPop,3)),
            NonHispanicP=percent(round(NonHispanic/TotalPop,3)),
            NHWhiteP=percent(round(NHWhite/NonHispanic,3)),
            NHBlackP=percent(round(NHBlack/NonHispanic,3)),
