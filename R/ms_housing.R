@@ -15,8 +15,8 @@ require(dplyr, quietly=TRUE)
 h3_10=codemog_api(data="h3", geonum=paste("1", state, fips, sep=""),meta="no")
 h3_10[,7:ncol(h3_10)]=as.numeric(as.character(h3_10[,7:ncol(h3_10)]))
 h3_10=h3_10%>%rename(Total=h3001, Occupied=h3002, Vacant=h3003)%>%
-  mutate(OccPercent=percent(Occupied/Total),
-         VacPercent=percent(Vacant/Total),
+  mutate(OccPercent=percent(round(Occupied/Total,3)),
+         VacPercent=percent(round(Vacant/Total,3)),
          Occupied=comma(Occupied),
          Vacant=comma(Vacant),
          Total=comma(Total))
@@ -26,8 +26,8 @@ h4_10[,7:ncol(h4_10)]=as.numeric(as.character(h4_10[,7:ncol(h4_10)]))
 h4_10=h4_10%>%  mutate(Owner=h4002+h4003,
                        Renter=h4004)%>%
   select(-h4001:-h4004)%>%
-  mutate(ownPercent=percent(Owner/(Owner+Renter)),
-         rentPercent=percent(Renter/(Owner+Renter)),
+  mutate(ownPercent=percent(round(Owner/(Owner+Renter),3)),
+         rentPercent=percent(round(Renter/(Owner+Renter),3)),
          Owner=comma(Owner),
          Renter=comma(Renter))
 h5_10=codemog_api(data="h5", geonum=paste("1", state, fips, sep=""),meta="no")
@@ -36,8 +36,8 @@ h5_10=h5_10%>%
   mutate(Seasonal=h5006,
          Other=h5002+h5003+h5004+h5005+h5007+h5008)%>%
   select(-h5001:-h5008)%>%
-  mutate(seasPercent=percent(Seasonal/(Other+Seasonal)),
-         otherPercent=percent(Other/(Other+Seasonal)),
+  mutate(seasPercent=percent(round(Seasonal/(Other+Seasonal),3)),
+         otherPercent=percent(round(Other/(Other+Seasonal),3)),
          Other=comma(Other),
          Seasonal=comma(Seasonal))
 housing_10=inner_join(h3_10,h5_10)%>%inner_join(h4_10)%>%
@@ -45,8 +45,8 @@ housing_10=inner_join(h3_10,h5_10)%>%inner_join(h4_10)%>%
 h3_00=codemog_api(data="h3",db="c2000", geonum=paste("1", state, fips, sep=""),meta="no")
 h3_00[,7:ncol(h3_00)]=as.numeric(as.character(h3_00[,7:ncol(h3_00)]))
 h3_00=h3_00%>%rename(Total=h3001, Occupied=h3002, Vacant=h3003)%>%
-  mutate(OccPercent=percent(Occupied/Total),
-         VacPercent=percent(Vacant/Total),
+  mutate(OccPercent=percent(round(Occupied/Total,3)),
+         VacPercent=percent(round(Vacant/Total,3)),
          Total=comma(Total),
          Occupied=comma(Occupied),
          Vacant=comma(Vacant))
@@ -56,8 +56,8 @@ h4_00[,7:ncol(h4_00)]=as.numeric(as.character(h4_00[,7:ncol(h4_00)]))
 h4_00=h4_00%>%  rename(Owner=h4002,
                        Renter=h4003)%>%
   select(-h4001)%>%
-  mutate(ownPercent=percent(Owner/(Owner+Renter)),
-         rentPercent=percent(Renter/(Owner+Renter)),
+  mutate(ownPercent=percent(round(Owner/(Owner+Renter),3)),
+         rentPercent=percent(round(Renter/(Owner+Renter),3)),
          Owner=comma(Owner),
          Renter=comma(Renter))
 h5_00=codemog_api(data="h5",db="c2000", geonum=paste("1", state, fips, sep=""),meta="no")
@@ -66,8 +66,8 @@ h5_00=h5_00%>%
   mutate(Seasonal=h5005,
          Other=h5002+h5003+h5004+h5006+h5007)%>%
   select(-h5001:-h5007)%>%
-  mutate(seasPercent=percent(Seasonal/(Other+Seasonal)),
-         otherPercent=percent(Other/(Other+Seasonal)),
+  mutate(seasPercent=percent(round(Seasonal/(Other+Seasonal),3)),
+         otherPercent=percent(round(Other/(Other+Seasonal),3)),
          Other=comma(Other),
          Seasonal=comma(Seasonal))
 

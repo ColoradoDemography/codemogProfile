@@ -4,9 +4,9 @@
 #' create a chart that shows net migration by single year of age for a list of counties
 #'
 #' @param fips_list is the fips code(s) for the countt(ies) of interest
-#' @param base is the abse text size for the ggplot2 object and codemog_theme()
+#' @param base is the base text size for the ggplot2 object and codemog_theme()
 #'
-cp_migbyage=function(fips_list, base=12){
+cp_migbyage=function(fips_list, base=12, agecat="five"){
 require(car, quietly=TRUE)
 require(codemog, quietly=TRUE)
 require(ggplot2, quietly=TRUE)
@@ -34,6 +34,7 @@ x=county_migbyage%>%
   ggplot(aes(x=age, y=netMigration, color=county))+
   geom_line(size=1.1)+
   scale_colour_manual(name="",values=codemog_pal)+
+  scale_x_discrete(breaks=switch(agecat, five=c(5,10,15,20,25,35,30,35,40,45,50,55,60,65,70,75,80,85), ten=c(10,20,30,40,50,60,70,80)))+
   theme_codemog(base_size = base)+
   labs(x="Age", y="Net Migration", title="Net Migration by Age, 2000 to 2010\nSource:U.S. Census Bureau and State Demography Office")
 return(x)
