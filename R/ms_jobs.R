@@ -1,7 +1,7 @@
-#' Creates a Chart comparing educational attainment of two areas
+#' Creates a Chart showing the Total Estimates Jobs series for each County in Colorado
 #'
-#' Uses the codemog_api function to access ACS data (defaults to 13-5yr) to create a ggplot2 chart for
-#' use in profiles.  Included here as more of an example.
+#' Uses State Demography Office data to create a chart showing the timeseries of Total Estimated Jobs
+#' (which means it includes Proprietors and Agricultural Workers) for each Colorado county in 2013.
 #'
 #' @param fips is the fips code for the county being examined
 #' @param countyname  This parameter puts the name of the county in the chart

@@ -1,7 +1,9 @@
-#' Creates a Chart comparing Forecast Population Growth by Agein CO
+#' Creates a Chart comparing Forecast Population Growth by Age in Colorado.
 #'
 #' Uses the data from the State Demography Office package codemog to
-#' create a graph showing population  changes by Age for each Colorado County.
+#' create a graph showing projected population  changes by Age for each Colorado county from
+#' 2015 to 2025.
+#'
 #' @param fips is the fips code for the county being examined
 #' @param base is the base text size for the ggplot2 object and codemog_theme()
 #'

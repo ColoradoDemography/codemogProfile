@@ -1,7 +1,8 @@
 #' Creates a Chart comparing Forecast Job and Population Growth in CO
 #'
 #' Uses the data from the State Demography Office package codemog to
-#' create a growh showing population and job changes by Colorado County.
+#' create a growth showing population and job changes by Colorado County
+#' from 2010 to 2030.
 #' @param fips is the fips code for the county being examined
 #' @param base is the base text size for the ggplot2 object and codemog_theme()
 #'

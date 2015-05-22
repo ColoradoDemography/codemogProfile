@@ -1,7 +1,9 @@
 #' Creates a Chart of Nig Migration Age Profiles
 #'
 #' Uses State Demography Office estimates of the Net Migration by age for each county to
-#' create a chart that shows net migration by single year of age for a list of counties
+#' create a chart that shows net migration by single year of age for a list of counties.
+#' Data comes from a demographic analysis of each county using births and deaths from each year
+#' to interpolate the implied migration between the two decennial census' in 2000 and 2010.
 #'
 #' @param fips_list is the fips code(s) for the countt(ies) of interest
 #' @param base is the base text size for the ggplot2 object and codemog_theme()

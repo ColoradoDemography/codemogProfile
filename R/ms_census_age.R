@@ -1,7 +1,7 @@
 #' Creates a chart comparing an areas age distributions in 2000 and 2010
 #'
 #' Uses the codemog_api function to access Census data to create a ggplot2 chart for
-#' use in profiles comparing the age distribution at the 2000 and 2010 Censuses.  Included here as more of an example.
+#' use in profiles comparing the age distribution at the 2000 and 2010 Censuses.
 #'
 #' @param fips is the fips code for the place or county
 #' @param state is the state that of the fips in the first argument

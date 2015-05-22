@@ -1,7 +1,7 @@
 #'  MainStreets Pull Function
 #'
 #'  This function creates the tables, graphs, and file paths for merging
-#'  into the Mainstreets Profile InDesign template. The output of the function
+#'  into the Community Profile InDesign template. The output of the function
 #'  is a dataframe with the proper formatting to do the data merege.
 #'
 #'  @param fips The FIPS of the Place or County to use
@@ -195,7 +195,7 @@ return(df)
 #'  MainStreets Pull Function - Counties
 #'
 #'  This function creates the tables, graphs, and file paths for merging
-#'  into the Mainstreets Profile InDesign template. The output of the function
+#'  into the Community Profile InDesign template. The output of the function
 #'  is a dataframe with the proper formatting to do the data merege.
 #
 

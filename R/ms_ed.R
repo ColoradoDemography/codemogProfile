@@ -1,7 +1,7 @@
 #' Creates a Chart comparing educational attainment of two areas
 #'
 #' Uses the codemog_api function to access ACS data (defaults to 13-5yr) to create a ggplot2 chart for
-#' use in profiles.  Included here as more of an example.
+#' use in profiles.
 #'
 #' @param fips is the fips code for the main area to be compared
 #' @param state is the state that the original fips
