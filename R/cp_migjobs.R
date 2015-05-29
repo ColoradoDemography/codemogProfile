@@ -9,7 +9,7 @@
 #' @param base is the base text size for the ggplot2 object and codemog_theme()
 #'
 #'
-cp_migjobs=function(fips, countyname, base){
+cp_migjobs=function(fips, countyname, base=12){
 require(codemog, quietly = TRUE)
 require(ggplot2, quietly = TRUE)
 require(grid, quietly = TRUE)
