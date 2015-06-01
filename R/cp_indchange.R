@@ -23,7 +23,7 @@ my=as.vector(as.matrix(maxyear))
 # Creates a value out of the maximum year that will be equal to the variable to use for the analysis
 maxyear=paste0("j_",str_sub(as.vector(as.matrix(maxyear)),-2,-1),"13")
 
-
+# Makes the plot
 p=county_indchange%>%
   filter(countyfips==fips)%>%
   gather(variable, value, -countyfips:-sector_name)%>%
@@ -33,8 +33,8 @@ p=county_indchange%>%
   spread(name, value)%>%
   arrange(desc(jobShare))%>%
   ggplot(aes(x=reorder(sector_name,jobShare), y=jobShare, group=countyfips))+
-  geom_bar(stat="identity", fill=rgb(0,168,58, max=255))+
-  geom_line(aes(y=1, color=rgb(31,74,126, max=255)),size=1.3)+
+  geom_bar(stat="identity", fill=rgb(0,149,58, max=255))+
+  geom_line(aes(y=1, color=rgb(191,32,38, max=255)),size=1.3)+
   scale_y_continuous(labels=percent)+
   theme_codemog(base_size=base)+
   theme(title=element_text(size=rel(1)), legend.position="none")+
