@@ -34,7 +34,7 @@ p=county_indchange%>%
   arrange(desc(jobShare))%>%
   ggplot(aes(x=reorder(sector_name,jobShare), y=jobShare, group=countyfips))+
   geom_bar(stat="identity", fill=rgb(0,149,58, max=255))+
-  geom_line(aes(y=1, color=rgb(191,32,38, max=255)),size=1.3)+
+  geom_line(aes(y=1),color=rgb(191,32,38, max=255),size=1.3)+
   scale_y_continuous(labels=percent)+
   theme_codemog(base_size=base)+
   theme(title=element_text(size=rel(1)), legend.position="none")+
