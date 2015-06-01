@@ -30,12 +30,12 @@ nm=county_profile%>%
 p=inner_join(j,nm, by=c("countyfips", "year"))%>%
 filter(countyfips==as.numeric(fips), year>2001)%>%
   ggplot()+
-  geom_bar(stat="identity",aes(x=year, y=netMigration, fill="netMigration"))+
-  geom_line(aes(x=year, y=jobChange,color="jobChange"), size=1.15)+
+  geom_bar(stat="identity",aes(x=year, y=jobChange, fill="jobChange"))+
+  geom_line(aes(x=year, y=netMigration,color="netMigration"), size=1.15)+
   scale_x_continuous(breaks=2002:2013)+
-  scale_color_manual(" ",values=c("netMigration"=rgb(31,74,126, max=255), "jobChange"=rgb(191,32,38, max=255)),
-                     labels=c("Job Change"))+
-  scale_fill_manual("", values=rgb(31,74,126, max=255), labels="Net Migration")+
+  scale_color_manual(" ",values=c("jobChange"=rgb(31,74,126, max=255), "netMigration"=rgb(191,32,38, max=255)),
+                     labels=c("Net Migration"))+
+  scale_fill_manual("", values=rgb(31,74,126, max=255), labels="Job Change")+
   theme_codemog(base_size=base)+
   theme(legend.box="horizontal")+
   labs(x="Year", y="Count", title=paste(countyname, "County Job Change and Net Migration, 2002 to 2013\nSource: State Demography Office"))
