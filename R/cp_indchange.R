@@ -8,7 +8,7 @@ require(tidyr, quietly=TRUE)
 require(scales, quietly=TRUE)
 require(grid, quietly=TRUE)
 
-
+fips=as.numeric(fips)
 
 #This line makes a dataframe that has one value, the number of jobs for the peak employment year
 max=filter(county_jobs,sector_id==0, year<2009, countyfips==fips)%>%
