@@ -1,3 +1,4 @@
+
 #' Creates a chart with two plots, one for population trend, one for components of change
 #'
 #' This function creates two seperate time-series plots, a line chart for popultion trends
@@ -10,6 +11,7 @@
 #' @param peakyear is both a switch and an input, if set to 1 it uses the max employment between 2002 and 2008, otherwise it uses what is supplied.
 #'
 #'
+
 cp_indchange=function(fips,  countyname, base=12, peakyear=1){
 
 require(codemog, quietly=TRUE)
