@@ -7,7 +7,7 @@
 #' @param fips is the fips code for the main area to be compared
 #' @param state is the state that the original fips
 #' @param base is the base text size for the ggplot2 object and codemog_theme() Deafults to 12
-#' @param peakyear is both a switch and an input, if set to 1 it uses the max employment, otherwise it uses what is supplied.
+#' @param peakyear is both a switch and an input, if set to 1 it uses the max employment between 2002 and 2008, otherwise it uses what is supplied.
 #'
 #'
 cp_indchange=function(fips,  countyname, base=12, peakyear=1){
