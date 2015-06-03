@@ -58,7 +58,7 @@ p=county_indchange%>%
   geom_line(aes(y=1),color=rgb(191,32,38, max=255),size=1.3)+
   scale_y_continuous(labels=percent)+
   theme_codemog(base_size=base)+
-  theme(title=element_text(size=rel(1)), legend.position="none")+
+  theme(title=element_text(size=rel(1)), legend.position="none", panel.grid.minor.y=element_line())+
   guides(fill=FALSE)+
   coord_flip()+
   labs(x="",y="Share of Jobs", title=paste(countyname, "County Employment in 2013 as a Percent of",my, "Employment\nSource:State Demography Office"))
