@@ -13,6 +13,7 @@ cp_poptrend=function(fips,countyname, base=12){
 require(codemog, quietly = TRUE)
 require(ggplot2, quietly = TRUE)
 require(gridExtra, quietly = TRUE)
+require(scales, quietly = TRUE)
 require(dplyr, quietly = TRUE)
 require(tidyr, quietly = TRUE)
 
@@ -24,6 +25,7 @@ fips=as.numeric(fips)
   ggplot(aes(x=year, y=value, fill=variable))+
   geom_bar(stat="identity",position="dodge")+
   scale_x_continuous(breaks=1985:2013)+
+  scale_y_continuous(labels=comma)+
   scale_fill_manual(values=c(rgb(31,74,126, max=255), rgb(192,32,38,max=255)),
                     name="",
                     breaks=c("netMigration", "naturalIncrease"),
@@ -36,6 +38,7 @@ pd2=county_profile%>%
   ggplot()+
   geom_line(aes(x=year, y=(householdPopulation+groupQuartersPoulation)), color=rgb(0,149,58, max=255), size=1.15)+
   scale_x_continuous(breaks=1985:2013)+
+  scale_y_continuous(labels=comma)+
   theme_codemog(base_size=base)+
   labs(y="Population", x="", title=paste(countyname, "County Population Trend and Components of Change, 1985 to 2013\nSource: State Demography Office"))
 
