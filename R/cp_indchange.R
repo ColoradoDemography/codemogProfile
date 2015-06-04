@@ -1,9 +1,10 @@
 
-#' Creates a chart with two plots, one for population trend, one for components of change
+#' Creates a chart that shows the change in jobs from peak employment to present by industry and CO county
 #'
-#' This function creates two seperate time-series plots, a line chart for popultion trends
-#' and a dodged bar chart for components of change over time.  The two plots are stacked together and
-#' placed into one chart.
+#'
+#' This function creates a chart that compares the job counts in an industry at the more recent estimate year to
+#' the year that the county experienced peak employment.  The function does allow for alternative peak years to be
+#' used by specifying the peakyear parameter to a value between 2002 and 2008.
 #'
 #' @param fips is the fips code for the main area to be compared
 #' @param state is the state that the original fips
