@@ -25,7 +25,7 @@ require(grid, quietly=TRUE)
 p=county_lf_bls%>%
   filter(countyfips==as.numeric(fips))%>%
   ggplot(aes(x=year, y=laborForce, group=countyfips))+
-  geom_bar(width=0.6,stat="identity", fill=rgb(21,74,126,max=255))+
+  geom_bar(width=0.75,stat="identity", fill=rgb(21,74,126,max=255))+
   scale_y_continuous(label=comma)+
   theme_codemog()+
   theme(panel.grid.minor=element_line(colour = rgb(210, 210, 210, max = 255), size=base*.05))+
