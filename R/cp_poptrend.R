@@ -36,7 +36,7 @@ pd2=county_profile%>%
   ggplot()+
   geom_line(aes(x=year, y=(householdPopulation+groupQuartersPoulation)), color=rgb(0,149,58, max=255), size=1.15)+
   scale_x_continuous(breaks=1985:2013)+
-  theme_codemog()+
+  theme_codemog(base_size-base)+
   labs(y="Population", x="", title=paste(countyname, "County Population Trend and Components of Change, 1985 to 2013\nSource: State Demography Office"))
 
 # pd=ggplot_gtable(ggplot_build(pd))
