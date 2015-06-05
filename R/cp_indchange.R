@@ -29,7 +29,7 @@ fips=as.numeric(fips)
 if(peakyear==1){
   #This line makes a dataframe that has one value, the number of jobs for the peak employment year
   max=filter(county_jobs,sector_id==0,year>2001, year<2009, countyfips==fips)%>%
-    summarize(max=max(jobs))
+    summarize(max=max(as.numeric(jobs)))
   # This line turns the dataframe into a numeric vector
   max=as.numeric(as.vector(as.matrix(max)))
   # Uses the numeric jobs number from above 'max' to filter the jobs data and get a year to index on
