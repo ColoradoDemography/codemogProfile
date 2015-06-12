@@ -13,6 +13,7 @@ Imports:
   ggplot2,
   car,
   grid,
+  gridExtra,
   scales,
   dplyr,
   robR
@@ -24,6 +25,7 @@ Depends:
   ggplot2,
   car,
   grid,
+  gridExtra,
   scales,
   dplyr,
   robR
