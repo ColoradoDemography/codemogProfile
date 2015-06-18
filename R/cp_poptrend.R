@@ -5,7 +5,7 @@
 #' placed into one chart.
 #'
 #' @param fips is the fips code for the main area to be compared
-#' @param state is the state that the original fips
+#' @param countyname is the name for the county to be used in the title.
 #' @param base is the base text size for the ggplot2 object and codemog_theme()
 
 

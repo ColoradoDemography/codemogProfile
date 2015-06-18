@@ -17,7 +17,7 @@ require(dplyr, quietly = TRUE)
 require(tidyr, quietly = TRUE)
 
 j=county_jobs%>%
-  filter(sector_id==0)%>%
+  filter(sector_id==0, year<=2013)%>%
   select(countyfips, year, jobs)%>%
   group_by(countyfips)%>%
   arrange(year)%>%
