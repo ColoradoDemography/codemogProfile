@@ -33,7 +33,7 @@ if(peakyear==1){
   # This line turns the dataframe into a numeric vector
   max=as.numeric(as.vector(as.matrix(max)))
   # Uses the numeric jobs number from above 'max' to filter the jobs data and get a year to index on
-maxyear=filter(county_jobs,sector_id==0, year>2001, year<2009, countyfips==fips, jobs==max)%>%
+maxyear=filter(county_jobs,sector_id==0, year>2001, year<2009, countyfips==fips, as.numeric(jobs)==max)%>%
   select(year)
 #creates a variable to make the chart title
 my=as.vector(as.matrix(maxyear))
