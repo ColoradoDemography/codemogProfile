@@ -38,11 +38,11 @@ maxyear=filter(county_jobs,sector_id==0, year>2001, year<2009, countyfips==fips,
 #creates a variable to make the chart title
 my=as.vector(as.matrix(maxyear))
 # Creates a value out of the maximum year that will be equal to the variable to use for the analysis
-maxyear=paste0("j_",str_sub(as.vector(as.matrix(maxyear)),-2,-1),"13")
+maxyear=paste0("j_",str_sub(as.vector(as.matrix(maxyear)),-2,-1),"14")
 } else {
   my=peakyear
   # Creates a value out of the maximum year that will be equal to the variable to use for the analysis
-  maxyear=paste0("j_",str_sub(as.vector(as.matrix(peakyear)),-2,-1),"13")
+  maxyear=paste0("j_",str_sub(as.vector(as.matrix(peakyear)),-2,-1),"14")
 }
 
 # Makes the plot
@@ -62,7 +62,7 @@ p=county_indchange%>%
   theme(title=element_text(size=rel(1)), legend.position="none", panel.grid.minor=element_line(colour = rgb(210, 210, 210, max = 255), size=base*.05))+
   guides(fill=FALSE)+
   coord_flip()+
-  labs(x="",y="Share of Jobs", title=paste(countyname, "County Employment in 2013 as a Percent of",my, "Employment\nSource:State Demography Office"))
+  labs(x="",y="Share of Jobs", title=paste(countyname, "County Employment in 2014 as a Percent of",my, "Employment\nSource:State Demography Office"))
 
 return(p)
 
