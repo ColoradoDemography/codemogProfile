@@ -27,7 +27,7 @@ a=county_profile%>%
   geom_area(aes(x=year, y=groupQuartersPoulation,fill=rgb(191,32,38, max=255)))+
   scale_x_continuous(breaks=1985:2013)+
   scale_y_continuous(labels=comma)+
-  scale_fill_identity(name="Population Type", guide="legend", labels=c('Total Population', "Household Population", "Group Quarters Population"))+
+  scale_fill_identity(name="Population Type", guide="legend", labels=c('Total Population', "Group Quarters Population", "Household Population"))+
   theme_codemog(base_size=base)+
   labs(y="Population", x="", title=paste(countyname, "County Population Trend by Type, 1985 to 2013\nSource: State Demography Office"))
 
