@@ -20,7 +20,8 @@ Imports:
   rgdal,
   RCurl,
   maptools,
-  ggthemes
+  ggthemes,
+  mapproj
 Depends:
   tidyr,
   stringr,
@@ -36,6 +37,7 @@ Depends:
   rgdal,
   RCurl,
   maptools,
-  ggthemes
+  ggthemes,
+  mapproj
 License: MIT
 LazyData: TRUE
