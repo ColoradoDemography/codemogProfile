@@ -13,6 +13,6 @@ ms_census_age(fips, state = "08", base = 12)
 }
 \description{
 Uses the codemog_api function to access Census data to create a ggplot2 chart for
-use in profiles comparing the age distribution at the 2000 and 2010 Censuses.  Included here as more of an example.
+use in profiles comparing the age distribution at the 2000 and 2010 Censuses.
 }
 

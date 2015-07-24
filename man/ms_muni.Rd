@@ -4,7 +4,8 @@
 \alias{ms_muni}
 \title{MainStreets Pull Function}
 \usage{
-ms_muni(fips, fips2 = "", state = "08", state2 = "08", od = "")
+ms_muni(fips, fips2 = "", countyfips, countyname, state = "08",
+  state2 = "08", od = "")
 }
 \arguments{
 \item{fips}{The FIPS of the Place or County to use}
@@ -19,7 +20,7 @@ ms_muni(fips, fips2 = "", state = "08", state2 = "08", od = "")
 }
 \description{
 This function creates the tables, graphs, and file paths for merging
- into the Mainstreets Profile InDesign template. The output of the function
+ into the Community Profile InDesign template. The output of the function
  is a dataframe with the proper formatting to do the data merege.
 }
 
