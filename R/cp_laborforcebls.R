@@ -12,7 +12,7 @@
 #'
 
 
-cp_laborforcebls=function(fips, countyname, base){
+cp_laborforcebls=function(fips, countyname, base=12){
 require(codemog, quietly=TRUE)
 require(ggplot2, quietly=TRUE)
 require(stringr, quietly=TRUE)
