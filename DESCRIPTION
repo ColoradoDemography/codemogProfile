@@ -16,7 +16,11 @@ Imports:
   gridExtra,
   scales,
   dplyr,
-  robR
+  robR,
+  rgdal,
+  RCurl,
+  maptools,
+  ggthemes
 Depends:
   tidyr,
   stringr,
@@ -28,6 +32,10 @@ Depends:
   gridExtra,
   scales,
   dplyr,
-  robR
+  robR,
+  rgdal,
+  RCurl,
+  maptools,
+  ggthemes
 License: MIT
 LazyData: TRUE
