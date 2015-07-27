@@ -17,7 +17,6 @@ Imports:
   scales,
   dplyr,
   robR,
-  rgdal,
   RCurl,
   maptools,
   ggthemes,
@@ -34,10 +33,11 @@ Depends:
   scales,
   dplyr,
   robR,
-  rgdal,
   RCurl,
   maptools,
   ggthemes,
   mapproj
+Suggests:
+  rgdal
 License: MIT
 LazyData: TRUE
