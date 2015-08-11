@@ -8,7 +8,7 @@
 #' @param base is the base text size for the ggplot2 object and codemog_theme()
 
 
-cp_GQage=function(fips, base=12){
+cp_GQage=function(fips, state="08", base=12){
 require(codemog, quietly = TRUE)
 require(ggplot2, quietly = TRUE)
 require(grid, quietly = TRUE)
