@@ -14,7 +14,6 @@ ms_muni=function(fips, fips2="", countyfips, countyname, state="08", state2="08"
 require(codemog, quietly=TRUE)
 require(scales, quietly=TRUE)
 require(rmarkdown, quietly=TRUE)
-require(robR, quietly=TRUE)
 require(tidyr, quietly=TRUE)
 require(stringi, quietly=TRUE)
 require(dplyr, quietly=TRUE)
@@ -56,7 +55,7 @@ require(dplyr, quietly=TRUE)
     rename(name=municipality)%>%ungroup()%>%
     mutate(year=as.numeric(year),
            popChange=comma(totalPop-lag(totalPop)),
-           growthRate=paste0(round(ann.gr(lag(totalPop), totalPop, year-lag(year)), digits=1),"%"),
+           growthRate=paste0(round(ann_gr(lag(totalPop), totalPop, year-lag(year)), digits=1),"%"),
            totalPop=comma(totalPop))
   muni_pop_chng1013=popMuni%>%filter(year==2013)%>%select(popChange)
 
@@ -71,7 +70,7 @@ require(dplyr, quietly=TRUE)
     summarise(totalPop=sum(totalPopulation, na.rm=T))%>%
     mutate(name="Colorado",
            year=as.numeric(year),
-           growthRate=paste0(round(ann.gr(lag(totalPop), totalPop, year-lag(year)), digits=1),"%"),
+           growthRate=paste0(round(ann_gr(lag(totalPop), totalPop, year-lag(year)), digits=1),"%"),
            totalPop=comma(totalPop))
   popCounty=county_est%>%
     mutate(#year=as.numeric(as.character(year)),
@@ -84,7 +83,7 @@ require(dplyr, quietly=TRUE)
     mutate(name=countyname$county,
            year=as.numeric(year),
            totalPop=totalPopulation,
-           growthRate=paste0(round(ann.gr(lag(totalPop), totalPop, year-lag(year)), digits=1),"%"),
+           growthRate=paste0(round(ann_gr(lag(totalPop), totalPop, year-lag(year)), digits=1),"%"),
            totalPop=comma(totalPop))
   pop=popMuni%>%
     select(-c(placefips, growthRate, popChange))%>%
@@ -251,7 +250,7 @@ cp_county=function(fips, fips2="", state="08", state2="08", od=""){
     summarise(totalPop=sum(totalPopulation, na.rm=T))%>%
     mutate(name="Colorado",
            year=as.numeric(year),
-           growthRate=paste0(round(ann.gr(lag(totalPop), totalPop, year-lag(year)), digits=1),"%"),
+           growthRate=paste0(round(ann_gr(lag(totalPop), totalPop, year-lag(year)), digits=1),"%"),
            totalPop=comma(totalPop))
   popCounty=county_est%>%
     mutate(#year=as.numeric(as.character(year)),
@@ -265,7 +264,7 @@ cp_county=function(fips, fips2="", state="08", state2="08", od=""){
            year=as.numeric(year),
            totalPop=totalPopulation,
            popChange=comma(totalPop-lag(totalPop)),
-           growthRate=paste0(round(ann.gr(lag(totalPop), totalPop, year-lag(year)), digits=1),"%"),
+           growthRate=paste0(round(ann_gr(lag(totalPop), totalPop, year-lag(year)), digits=1),"%"),
            totalPop=comma(totalPop))
   county_pop_chng1013=popCounty%>%filter(year==2013)%>%select(popChange)
   pop=popCounty%>%
