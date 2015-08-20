@@ -108,10 +108,10 @@ require(dplyr, quietly=TRUE)
     spread(name,growthRate)
 
   countyjobs=jobchart$data%>%
-    filter(year==2013)%>%
-    mutate(county_jobs_2013=comma(jobs,0),
+    filter(year==2014)%>%
+    mutate(county_jobs_2014=comma(jobs,0),
            geonum=as.numeric(paste("108", fips, sep="")))%>%
-    select(county_jobs_2013, geonum)
+    select(county_jobs_2014, geonum)
   coli=county_coli%>%
     filter(countyfips==cntynum)%>%
     mutate(coli_level=paste(coli, level, sep=", "))%>%
@@ -285,10 +285,10 @@ cp_county=function(fips, fips2="", state="08", state2="08", od=""){
     spread(name,growthRate)
 
   countyjobs=jobchart$data%>%
-    filter(year==2013)%>%
-    mutate(county_jobs_2013=comma(jobs,0),
+    filter(year==2014)%>%
+    mutate(county_jobs_2014=comma(jobs,0),
            geonum=as.numeric(paste("108", fips, sep="")))%>%
-    select(county_jobs_2013, geonum)
+    select(county_jobs_2014, geonum)
   coli=county_coli%>%
     filter(countyfips==cntynum)%>%
     mutate(coli_level=paste(coli, level, sep=", "))%>%
