@@ -20,11 +20,11 @@ fips=as.numeric(fips)
 
 a=county_profile%>%
   filter(countyfips==fips)%>%
-  mutate(totalPopulation=(householdPopulation+groupQuartersPoulation))%>%
+  mutate(totalPopulation=(householdPopulation+groupQuartersPopulation))%>%
   ggplot()+
   geom_area(aes(x=year, y=totalPopulation, fill=rgb(31,74,126, max=255)))+
   geom_area(aes(x=year, y=householdPopulation, fill=rgb(216,199,34, max=255)))+
-  geom_area(aes(x=year, y=groupQuartersPoulation,fill=rgb(191,32,38, max=255)))+
+  geom_area(aes(x=year, y=groupQuartersPopulation,fill=rgb(191,32,38, max=255)))+
   scale_x_continuous(breaks=1985:2013)+
   scale_y_continuous(labels=comma)+
   scale_fill_identity(name="Population Type", guide="legend", labels=c('Total Population', "Group Quarters Population", "Household Population"))+

@@ -36,7 +36,7 @@ fips=as.numeric(fips)
 pd2=county_profile%>%
   filter(countyfips==fips)%>%
   ggplot()+
-  geom_line(aes(x=year, y=(householdPopulation+groupQuartersPoulation)), color=rgb(0,149,58, max=255), size=1.15)+
+  geom_line(aes(x=year, y=(householdPopulation+groupQuartersPopulation)), color=rgb(0,149,58, max=255), size=1.15)+
   scale_x_continuous(breaks=1985:2013)+
   scale_y_continuous(labels=comma)+
   theme_codemog(base_size=base)+
