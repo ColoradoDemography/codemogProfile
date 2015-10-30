@@ -1,8 +1,6 @@
 #' Creates a simple map that highlights a Colorado County
 #'
-#' This function creates two seperate time-series plots, a line chart for popultion trends
-#' and a dodged bar chart for components of change over time.  The two plots are stacked together and
-#' placed into one chart.
+#' This function creates a map that highlights one county to be used in the profile process.
 #'
 #' @param fips is the fips code for the county to highlight
 #'
@@ -19,7 +17,6 @@ suppressPackageStartupMessages(require(RCurl))
 j=getURL("http://54.69.15.55/CensusAPI/geojson.php?table=p1&sumlev=50&db=c2010&state=8&zoom=9")
 gj=readOGR(j, "OGRGeoJSON", verbose=FALSE)
 gj=fortify(gj)
-gjf=fortify(gj, "data")
 
 #Pulls the County to Highlight
 j1=getURL(paste0("http://54.69.15.55/CensusAPI/geojson.php?table=p1&sumlev=50&db=c2010&state=8&zoom=9&county=", as.numeric(fips)))
