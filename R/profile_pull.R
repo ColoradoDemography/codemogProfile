@@ -19,9 +19,9 @@ require(stringi, quietly=TRUE)
 require(dplyr, quietly=TRUE)
 
 
-  yrs=c("1990","1995","2000","2010", "2013","2015","2020","2025","2030","2035","2040")
+  yrs=c("1990","1995","2000","2010", "2014","2015","2020","2025","2030","2035","2040")
   cntynum=as.numeric(countyfips)
-  countyname=county_est%>%filter(countyfips==cntynum, year==2013)%>%select(county)
+  countyname=county_est%>%filter(countyfips==cntynum, year==2014)%>%select(county)
   ## Graphs
   # This set makes all of the graphs and saves them to the output directory
 
@@ -43,8 +43,7 @@ require(dplyr, quietly=TRUE)
   ggsave(filename=paste0("popagechart_",fips,".png"), popagechart, path=od,width=93, height=53, units="mm")
   ## This Section Generates the requisite Population TimeSeries
   popMuni=muni_est%>%
-    mutate(#year=as.numeric(as.character(year)),
-      placefips=as.numeric(as.character(placefips)),
+    mutate(placefips=as.numeric(as.character(placefips)),
       geonum=as.numeric(as.character(geonum)))%>%
     select(geonum, placefips, municipality, year, totalPopulation)%>%
     bind_rows(muni_hist%>%select(-countyfips))%>%
@@ -57,11 +56,10 @@ require(dplyr, quietly=TRUE)
            popChange=comma(totalPop-lag(totalPop)),
            growthRate=paste0(round(ann_gr(lag(totalPop), totalPop, year-lag(year)), digits=1),"%"),
            totalPop=comma(totalPop))
-  muni_pop_chng1013=popMuni%>%filter(year==2013)%>%select(popChange)
+  muni_pop_chng1014=popMuni%>%filter(year==2014)%>%select(popChange)
 
   popCO=county_est%>%
-    mutate(#year=as.numeric(as.character(year)),
-      countyfips=as.numeric(as.character(countyfips)),
+    mutate(countyfips=as.numeric(as.character(countyfips)),
       geonum=as.numeric(as.character(geonum)))%>%
     select(geonum, countyfips, year, totalPopulation)%>%
     bind_rows(county_hist%>%select(-c(datatype, county)))%>%
@@ -176,7 +174,7 @@ require(dplyr, quietly=TRUE)
     bind_cols(forecastnumbers)%>%
     bind_cols(popjobsforecast)%>%
     mutate(coli_level=coli$coli_level,
-           munichng_1013=muni_pop_chng1013$popChange,
+           munichng_1014=muni_pop_chng1014$popChange,
            ed=paste0(od,"/ed_",fips,".png"),
            agegraph=paste0(od,"/age_",fips,".png"),
            hhgraph=paste0(od,"/hh_",fips,".png"),
@@ -214,9 +212,9 @@ cp_county=function(fips, fips2="", state="08", state2="08", od=""){
   require(dplyr, quietly=TRUE)
 
 
-  yrs=c("1990","1995","2000","2010", "2013","2015","2020","2025","2030","2035","2040")
+  yrs=c("1990","1995","2000","2010", "2014","2015","2020","2025","2030","2035","2040")
   cntynum=as.numeric(fips)
-  countyname=county_est%>%filter(countyfips==cntynum, year==2013)%>%select(county)
+  countyname=county_est%>%filter(countyfips==cntynum, year==2014)%>%select(county)
   ## Graphs
   # This set makes all of the graphs and saves them to the output directory
 
@@ -240,8 +238,7 @@ cp_county=function(fips, fips2="", state="08", state2="08", od=""){
 
 
   popCO=county_est%>%
-    mutate(#year=as.numeric(as.character(year)),
-      countyfips=as.numeric(as.character(countyfips)),
+    mutate(countyfips=as.numeric(as.character(countyfips)),
       geonum=as.numeric(as.character(geonum)))%>%
     select(geonum, countyfips, year, totalPopulation)%>%
     bind_rows(county_hist%>%select(-c(datatype, county)))%>%
@@ -253,8 +250,7 @@ cp_county=function(fips, fips2="", state="08", state2="08", od=""){
            growthRate=paste0(round(ann_gr(lag(totalPop), totalPop, year-lag(year)), digits=1),"%"),
            totalPop=comma(totalPop))
   popCounty=county_est%>%
-    mutate(#year=as.numeric(as.character(year)),
-      countyfips=as.numeric(as.character(countyfips)),
+    mutate(countyfips=as.numeric(as.character(countyfips)),
       geonum=as.numeric(as.character(geonum)))%>%
     select(geonum, countyfips, year, totalPopulation)%>%
     bind_rows(county_hist%>%select(-c(datatype, county)))%>%
@@ -266,7 +262,7 @@ cp_county=function(fips, fips2="", state="08", state2="08", od=""){
            popChange=comma(totalPop-lag(totalPop)),
            growthRate=paste0(round(ann_gr(lag(totalPop), totalPop, year-lag(year)), digits=1),"%"),
            totalPop=comma(totalPop))
-  county_pop_chng1013=popCounty%>%filter(year==2013)%>%select(popChange)
+  county_pop_chng1014=popCounty%>%filter(year==2014)%>%select(popChange)
   pop=popCounty%>%
     select(-c(countyfips, growthRate, totalPopulation, popChange))%>%
     mutate(name="county")%>%
@@ -352,7 +348,7 @@ cp_county=function(fips, fips2="", state="08", state2="08", od=""){
     bind_cols(forecastnumbers)%>%
     bind_cols(popjobsforecast)%>%
     mutate(coli_level=coli$coli_level,
-           countychng_1013=county_pop_chng1013$popChange,
+           countychng_1014=county_pop_chng1014$popChange,
            ed=paste0(od,"/ed_",fips,".png"),
            agegraph=paste0(od,"/age_",fips,".png"),
            hhgraph=paste0(od,"/hh_",fips,".png"),
