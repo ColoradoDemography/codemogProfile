@@ -19,7 +19,7 @@ require(dplyr, quietly=TRUE)
 require(codemog, quietly=TRUE)
 
 
-hhinc1=codemog_api(data="b19001",db="acs1014", geonum=paste("1", state, fips, sep=""), meta="no")%>%
+hhinc1=codemog_api(data="b19001",db="acs0913", geonum=paste("1", state, fips, sep=""), meta="no")%>%
   select(-b19001001)%>%
   gather(var, value, b19001002:b19001017, -geoname, -state, -county, -place,-tract,-bg,-geonum)%>%
   mutate(geoname=str_trim(geoname, side="both"),
@@ -38,7 +38,7 @@ hhinc1=codemog_api(data="b19001",db="acs1014", geonum=paste("1", state, fips, se
   select(-state_name, -group)%>%
   mutate(p=as.numeric(value)/sum(as.numeric(value)))
 
-hhinc2=codemog_api(data="b19001",db="acs1014", geonum=paste("1", state2, fips2, sep=""), meta="no")%>%
+hhinc2=codemog_api(data="b19001",db="acs0913", geonum=paste("1", state2, fips2, sep=""), meta="no")%>%
   select(-b19001001)%>%
   gather(var, value, b19001002:b19001017, -geoname, -state, -county, -place,-tract,-bg,-geonum)%>%
   mutate(geoname=str_trim(geoname, side="both"),
