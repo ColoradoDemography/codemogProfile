@@ -11,12 +11,12 @@
 #'  @param od The output directory for the graphs being created.
 #'
 ms_muni=function(fips, fips2="", countyfips, countyname, state="08", state2="08", od=""){
-require(codemog, quietly=TRUE)
-require(scales, quietly=TRUE)
-require(rmarkdown, quietly=TRUE)
-require(tidyr, quietly=TRUE)
-require(stringi, quietly=TRUE)
-require(dplyr, quietly=TRUE)
+  require(codemog, quietly=TRUE)
+  require(scales, quietly=TRUE)
+  require(rmarkdown, quietly=TRUE)
+  require(tidyr, quietly=TRUE)
+  require(stringi, quietly=TRUE)
+  require(dplyr, quietly=TRUE)
 
 
   yrs=c("1990","1995","2000","2010", "2014","2015","2020","2025","2030","2035","2040")
@@ -41,10 +41,12 @@ require(dplyr, quietly=TRUE)
   ggsave(filename=paste0("forecastchart_",fips,".png"), forecastchart, path=od,width=93, height=53, units="mm")
   popagechart=ms_popage(fips=countyfips, base=6)+theme(legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"), plot.title = element_text(hjust = 0, size = rel(1.2), face = "bold"))
   ggsave(filename=paste0("popagechart_",fips,".png"), popagechart, path=od,width=93, height=53, units="mm")
+  map=cp_countymap(countyfips)
+  ggsave(paste0("map_", as.character(countyname$county), ".png"), map, h=51, w=80, units="mm")
   ## This Section Generates the requisite Population TimeSeries
   popMuni=muni_est%>%
     mutate(placefips=as.numeric(as.character(placefips)),
-      geonum=as.numeric(as.character(geonum)))%>%
+           geonum=as.numeric(as.character(geonum)))%>%
     select(geonum, placefips, municipality, year, totalPopulation)%>%
     bind_rows(muni_hist%>%select(-countyfips))%>%
     filter(year %in% yrs)%>%
@@ -60,7 +62,7 @@ require(dplyr, quietly=TRUE)
 
   popCO=county_est%>%
     mutate(countyfips=as.numeric(as.character(countyfips)),
-      geonum=as.numeric(as.character(geonum)))%>%
+           geonum=as.numeric(as.character(geonum)))%>%
     select(geonum, countyfips, year, totalPopulation)%>%
     bind_rows(county_hist%>%select(-c(datatype, county)))%>%
     filter(year %in% yrs, countyfips>0)%>%
@@ -175,6 +177,7 @@ require(dplyr, quietly=TRUE)
     bind_cols(popjobsforecast)%>%
     mutate(coli_level=coli$coli_level,
            munichng_1014=muni_pop_chng1014$popChange,
+           countyName=as.character(countyname$county),
            ed=paste0(od,"/ed_",fips,".png"),
            agegraph=paste0(od,"/age_",fips,".png"),
            hhgraph=paste0(od,"/hh_",fips,".png"),
@@ -183,10 +186,11 @@ require(dplyr, quietly=TRUE)
            jobchart=paste0(od,"/jobchart_",fips,".png"),
            forecastchart=paste0(od,"/forecastchart_",fips,".png"),
            popagechart=paste0(od,"/popagechart_",fips,".png"),
-           countyName=as.character(countyname$county))
-# save.xlsx(paste(od, "/rawdata_",fips,".xlsx", sep=""), pop, popr, housing, hh$data, race, mhi, ed$data, age$data, incdist$data, jobchart$data)
-# rmarkdown::render(system.file("misc", "muni_profile_charts.Rmd", package = "codemogProfile"), output_file=paste0(od,"/muniprofileCharts",fips,".html"))
-return(df)
+           map=paste0(od,"/map_",as.character(countyname$county),".png"))
+  names(df)[132:140]=c("@ed", "@agegraph", "@hhgraph", "@incdistchart", "@popchart", "@jobchart", "@forecastchart", "@popagechart", "@map")
+  # save.xlsx(paste(od, "/rawdata_",fips,".xlsx", sep=""), pop, popr, housing, hh$data, race, mhi, ed$data, age$data, incdist$data, jobchart$data)
+  # rmarkdown::render(system.file("misc", "muni_profile_charts.Rmd", package = "codemogProfile"), output_file=paste0(od,"/muniprofileCharts",fips,".html"))
+  return(df)
 }
 
 #'  MainStreets Pull Function - Counties
@@ -349,6 +353,7 @@ cp_county=function(fips, fips2="", state="08", state2="08", od=""){
     bind_cols(popjobsforecast)%>%
     mutate(coli_level=coli$coli_level,
            countychng_1014=county_pop_chng1014$popChange,
+           countyName=as.character(countyname$county),
            ed=paste0(od,"/ed_",fips,".png"),
            agegraph=paste0(od,"/age_",fips,".png"),
            hhgraph=paste0(od,"/hh_",fips,".png"),
@@ -357,7 +362,8 @@ cp_county=function(fips, fips2="", state="08", state2="08", od=""){
            jobchart=paste0(od,"/jobchart_",fips,".png"),
            forecastchart=paste0(od,"/forecastchart_",fips,".png"),
            popagechart=paste0(od,"/popagechart_",fips,".png"),
-           countyName=as.character(countyname$county))
+           map=paste0(od,"/map_",as.character(countyname$county),".png"))
+  names(df)[132:140]=c("@ed", "@agegraph", "@hhgraph", "@incdistchart", "@popchart", "@jobchart", "@forecastchart", "@popagechart", "@map")
 #   save.xlsx(paste(od, "/rawdata_",fips,".xlsx", sep=""), pop, popr, housing, hh$data, race, mhi, ed$data, age$data, incdist$data, jobchart$data)
   # rmarkdown::render(system.file("misc", "muni_profile_charts.Rmd", package = "codemogProfile"), output_file=paste0(od,"/muniprofileCharts",fips,".html"))
   return(df)
