@@ -41,7 +41,7 @@ ms_muni=function(fips, fips2="", countyfips, countyname, state="08", state2="08"
   ggsave(filename=paste0("forecastchart_",fips,".png"), forecastchart, path=od,width=93, height=53, units="mm")
   popagechart=ms_popage(fips=countyfips, base=6)+theme(legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"), plot.title = element_text(hjust = 0, size = rel(1.2), face = "bold"))
   ggsave(filename=paste0("popagechart_",fips,".png"), popagechart, path=od,width=93, height=53, units="mm")
-  map=cp_countymap(countyfips)
+  map=cp_countymap(cntynum)
   ggsave(paste0("map_", as.character(countyname$county), ".png"), map, h=51, w=80, units="mm")
   ## This Section Generates the requisite Population TimeSeries
   popMuni=muni_est%>%
@@ -238,6 +238,8 @@ cp_county=function(fips, fips2="", state="08", state2="08", od=""){
   ggsave(filename=paste0("forecastchart_",fips,".png"), forecastchart, path=od,width=93, height=53, units="mm")
   popagechart=ms_popage(fips=fips, base=6)+theme(legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"), plot.title = element_text(hjust = 0, size = rel(1.2), face = "bold"))
   ggsave(filename=paste0("popagechart_",fips,".png"), popagechart, path=od,width=93, height=53, units="mm")
+  map=cp_countymap(cntynum)
+  ggsave(paste0("map_", as.character(countyname$county), ".png"), map, h=51, w=80, units="mm")
   ## This Section Generates the requisite Population TimeSeries
 
 
@@ -363,8 +365,8 @@ cp_county=function(fips, fips2="", state="08", state2="08", od=""){
            forecastchart=paste0(od,"/forecastchart_",fips,".png"),
            popagechart=paste0(od,"/popagechart_",fips,".png"),
            map=paste0(od,"/map_",as.character(countyname$county),".png"))
-  names(df)[132:140]=c("@ed", "@agegraph", "@hhgraph", "@incdistchart", "@popchart", "@jobchart", "@forecastchart", "@popagechart", "@map")
-#   save.xlsx(paste(od, "/rawdata_",fips,".xlsx", sep=""), pop, popr, housing, hh$data, race, mhi, ed$data, age$data, incdist$data, jobchart$data)
+  names(df)[122:130]=c("@ed", "@agegraph", "@hhgraph", "@incdistchart", "@popchart", "@jobchart", "@forecastchart", "@popagechart", "@map")
+  #   save.xlsx(paste(od, "/rawdata_",fips,".xlsx", sep=""), pop, popr, housing, hh$data, race, mhi, ed$data, age$data, incdist$data, jobchart$data)
   # rmarkdown::render(system.file("misc", "muni_profile_charts.Rmd", package = "codemogProfile"), output_file=paste0(od,"/muniprofileCharts",fips,".html"))
   return(df)
 }
