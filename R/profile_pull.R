@@ -228,7 +228,7 @@ cp_county=function(fips, fips2="", state="08", state2="08", od=""){
   ggsave(filename=paste0("age_",fips,".png"), age, path=od, width=95, height=55, units="mm")
   hh=ms_hh(fips=fips, state=state, base=6)+theme(legend.text=element_text(size=7.2), legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
   ggsave(filename=paste0("hh_",fips,".png"), hh, path=od, width=118, height=69, units="mm")
-  incdist=ms_income(fips=fips, fips2=fips2, state=state, state2=state2, base=6)+theme(legend.text=element_text(size=7.2), legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
+  incdist=ms_income(fips=fips, fips2=fips2, state=state, state2=state2, base=7.5)+theme(legend.text=element_text(size=7.2), legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
   ggsave(filename=paste0("incdist_",fips,".png"), incdist, path=od, width=155, height=75, units="mm")
   popchart=county_ts_chart(fips, base=6)+theme(legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
   ggsave(filename=paste0("popchart_",fips,".png"), popchart, path=od,width=93, height=53, units="mm")
