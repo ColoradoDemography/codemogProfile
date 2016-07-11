@@ -66,5 +66,6 @@ ms_census_age=function(fips, state="08", base=12){
                       labels=c("2000","2010"))+
     theme_codemog(base_size=base)+
     labs(x="Age", y="Population", title=paste(d10c$geoname, "Population by Age \nSource: U.S. Census Bureau"))
+
   return(p)
 }
