@@ -14,12 +14,12 @@ suppressPackageStartupMessages(require(maptools))
 suppressPackageStartupMessages(require(RCurl))
 
 #Pulls the COunty Outlines
-j=getURL("http://54.69.15.55/CensusAPI/geojson.php?table=p1&sumlev=50&db=c2010&state=8&zoom=9")
+j=getURL("https://gis.dola.colorado.gov/capi/geojson?table=p1&sumlev=50&db=c2010&state=8&zoom=9")
 gj=readOGR(j, "OGRGeoJSON", verbose=FALSE)
 gj=fortify(gj)
 
 #Pulls the County to Highlight
-j1=getURL(paste0("http://54.69.15.55/CensusAPI/geojson.php?table=p1&sumlev=50&db=c2010&state=8&zoom=9&county=", as.numeric(fips)))
+j1=getURL(paste0("https://gis.dola.colorado.gov/capi/geojson?table=p1&sumlev=50&db=c2010&state=8&zoom=9&county=", as.numeric(fips)))
 gj1=readOGR(j1, "OGRGeoJSON", verbose=FALSE)
 gj1=fortify(gj1)
 
