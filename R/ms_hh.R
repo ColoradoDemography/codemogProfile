@@ -61,6 +61,7 @@ p=hh%>%ggplot(aes(x=var, y=Value, fill=year))+
   scale_y_continuous(labels=comma)+
   labs(x="Household Type", y="Number of Households", title=paste(stri_trans_general(hh$geoname, id="Title"), "Household Types\n Source: Census 2000 and 2010"))
 return(p)
+
 }
 
 
