@@ -25,7 +25,7 @@ hhinc1=codemog_api(data="b19001",db="acs1014", geonum=paste("1", state, fips, se
   mutate(geoname=str_trim(geoname, side="both"),
          var2=str_sub(var, -2,-1),
          var3=as.numeric(as.character(var2)),
-         group=recode(var3, "2=1; 3:4=2; 5:6=3;7:8=4;9:10=5; 11=6;12=7;13=8;14=9;
+         group=car::recode(var3, "2=1; 3:4=2; 5:6=3;7:8=4;9:10=5; 11=6;12=7;13=8;14=9;
                       15=10;16=11;17=12"))%>%
   group_by(geoname,group)%>%
   summarise(value=sum(as.numeric(value)))%>%
@@ -44,7 +44,7 @@ hhinc2=codemog_api(data="b19001",db="acs1014", geonum=paste("1", state2, fips2, 
   mutate(geoname=str_trim(geoname, side="both"),
          var2=str_sub(var, -2,-1),
          var3=as.numeric(as.character(var2)),
-         group=recode(var3, "2=1; 3:4=2; 5:6=3;7:8=4;9:10=5; 11=6;12=7;13=8;14=9;
+         group=car::recode(var3, "2=1; 3:4=2; 5:6=3;7:8=4;9:10=5; 11=6;12=7;13=8;14=9;
                       15=10;16=11;17=12"))%>%
   group_by(geoname,group)%>%
   summarise(value=sum(as.numeric(value)))%>%

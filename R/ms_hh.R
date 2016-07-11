@@ -49,7 +49,7 @@ hh00=p20_00%>%
 
 hh=bind_rows(hh10,hh00)%>%
   gather(var, Value, Total:Nonfamily.Alone.65, -geoname, -state, -county, -place,-tract,-bg,-geonum, -year)%>%
-  mutate(var2=recode(var,"'Total'=1;'Family.Households'=2; 'Family.Kids'=3;'Nonfamily.Households'=4; 'Nonfamily.Alone'=5; 'Nonfamily.Alone.65'=6"),
+  mutate(var2=car::recode(var,"'Total'=1;'Family.Households'=2; 'Family.Kids'=3;'Nonfamily.Households'=4; 'Nonfamily.Alone'=5; 'Nonfamily.Alone.65'=6"),
          var=ordered(var2, levels=1:6, labels=c("Households", "Family Households", "Family Households\nw/ Under 18", "Nonfamily Households",
                                                 "Nonfamily Households\nLiving Alone", "Nonfamily Households\nLiving Alone over 65")))
 
