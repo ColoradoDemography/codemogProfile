@@ -23,7 +23,7 @@ require(grid, quietly=TRUE)
 fips=as.numeric(fips)
 
 p=county_jobShare%>%
-  filter(countyfips==fips, year==2014)%>%
+  filter(countyfips==fips, year==max(unique(county_jobShare$year)))%>%
   ggplot(aes(x=reorder(sector_name,jobShare), y=jobShare, group=countyfips))+
   geom_bar(stat="identity", fill=rgb(0,149,58, max=255))+
   scale_y_continuous(labels=percent)+
@@ -31,6 +31,6 @@ p=county_jobShare%>%
   theme(title=element_text(size=rel(1)), legend.position="none", panel.grid.minor=element_line(colour = rgb(210, 210, 210, max = 255), size=base*.05))+
   guides(fill=FALSE)+
   coord_flip()+
-  labs(x="",y="Share of Jobs", title=paste(countyname, "County Share of Employment by Industry, 2014\nSource: State Demography Office"))
+  labs(x="",y="Share of Jobs", title=paste(countyname, "County Share of Employment by Industry,",max(unique(county_jobShare$year)), "\nSource: State Demography Office"))
 return(p)
 }
