@@ -27,7 +27,7 @@ ms_jobs=function(fips, countyname, base=12){
     scale_x_continuous(breaks=c(2001:max(unique(county_jobs$year)) ))+
     scale_y_continuous(labels=comma)+
     theme_codemog(base_size=base)+
-    labs(x="Year", y="Jobs", title=paste0(countyname," County Total Estimated Jobs, 2001 to",max(unique(county_jobs$year)) ,"\nSource: State Demography Office"))
+    labs(x="Year", y="Jobs", title=paste0(countyname," County Total Estimated Jobs, 2001 to ",max(unique(county_jobs$year)) ,"\nSource: State Demography Office"))
 
   return(total_jobs)
 }
