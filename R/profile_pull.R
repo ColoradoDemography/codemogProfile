@@ -25,25 +25,28 @@ ms_muni=function(fips, fips2="", countyfips, countyname, state="08", state2="08"
   countyname=county_est%>%filter(countyfips==cntynum, year==2014)%>%select(county)
   ## Graphs
   # This set makes all of the graphs and saves them to the output directory
-
-  ed=ms_ed(fips=fips,fips2=fips2, state=state, state2=state2, base=6)+theme(legend.text=element_text(size=7.2), legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
-  ggsave(filename=paste0("ed_",fips,".png"), ed, path=od, width=96, height=48, units="mm")
-  age=ms_census_age(fips=fips,state=state, base=6)+theme(legend.text=element_text(size=7.2), legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
-  ggsave(filename=paste0("age_",fips,".png"), age, path=od, width=95, height=55, units="mm")
-  hh=ms_hh(fips=fips, state=state, base=6)+theme(legend.text=element_text(size=7.2), legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
-  ggsave(filename=paste0("hh_",fips,".png"), hh, path=od, width=118, height=69, units="mm")
-  incdist=ms_income(fips=fips, fips2=fips2, state=state, state2=state2, base=7.5)+theme(legend.text=element_text(size=7.2), legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
-  ggsave(filename=paste0("incdist_",fips,".png"), incdist, path=od, width=155, height=75, units="mm")
+  fips_t=fips
+  fips=as.numeric(fips)
+  ed=ms_ed(fips=fips_t,fips2=fips2, state=state, state2=state2, base=6)+theme(legend.text=element_text(size=7.2), legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
+  ggsave(filename=paste0("ed_",fips_t,".png"), ed, path=od, width=96, height=48, units="mm")
+  age=ms_census_age(fips=fips_t,state=state, base=6)+theme(legend.text=element_text(size=7.2), legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
+  ggsave(filename=paste0("age_",fips_t,".png"), age, path=od, width=95, height=55, units="mm")
+  hh=ms_hh(fips=fips_t, state=state, base=6)+theme(legend.text=element_text(size=7.2), legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
+  ggsave(filename=paste0("hh_",fips_t,".png"), hh, path=od, width=118, height=69, units="mm")
+  incdist=ms_income(fips=fips_t, fips2=fips2, state=state, state2=state2, base=7.5)+theme(legend.text=element_text(size=7.2), legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
+  ggsave(filename=paste0("incdist_",fips_t,".png"), incdist, path=od, width=155, height=75, units="mm")
   popchart=muni_ts_chart(fips, base=6)+theme(legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
-  ggsave(filename=paste0("popchart_",fips,".png"), popchart, path=od,width=93, height=53, units="mm")
+  ggsave(filename=paste0("popchart_",fips_t,".png"), popchart, path=od,width=93, height=53, units="mm")
   jobchart=ms_jobs(fips=countyfips, countyname=countyname, base=6)+theme(legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"), plot.title = element_text(hjust = 0, size = rel(1.25), face = "bold"))
-  ggsave(filename=paste0("jobchart_",fips,".png"), jobchart, path=od,width=93, height=53, units="mm")
+  ggsave(filename=paste0("jobchart_",fips_t,".png"), jobchart, path=od,width=93, height=53, units="mm")
   forecastchart=ms_forecast(fips=countyfips, base=6)+theme(legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"), plot.title = element_text(hjust = 0, size = rel(1.2), face = "bold"))
-  ggsave(filename=paste0("forecastchart_",fips,".png"), forecastchart, path=od,width=93, height=53, units="mm")
+  ggsave(filename=paste0("forecastchart_",fips_t,".png"), forecastchart, path=od,width=93, height=53, units="mm")
   popagechart=ms_popage(fips=countyfips, base=6)+theme(legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"), plot.title = element_text(hjust = 0, size = rel(1.2), face = "bold"))
-  ggsave(filename=paste0("popagechart_",fips,".png"), popagechart, path=od,width=93, height=53, units="mm")
+  ggsave(filename=paste0("popagechart_",fips_t,".png"), popagechart, path=od,width=93, height=53, units="mm")
   map=cp_countymap(cntynum)
   ggsave(paste0("map_", as.character(countyname$county), ".png"), map, h=51, w=80, units="mm")
+
+
   ## This Section Generates the requisite Population TimeSeries
   popMuni=muni_hist(fips,1990:2015)%>%
     filter(year %in% yrs)%>%
