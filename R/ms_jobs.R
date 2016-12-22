@@ -8,6 +8,7 @@
 #' @param base is the abse text size for the ggplot2 object and codemog_theme()
 ms_jobs=function(fips, countyname, base=12){
   require(car, quietly=TRUE)
+  require(codemog, quietly=TRUE)
   require(codemogAPI, quietly=TRUE)
   require(ggplot2, quietly=TRUE)
   require(scales, quietly=TRUE)
@@ -15,9 +16,15 @@ ms_jobs=function(fips, countyname, base=12){
   require(tidyr, quietly=TRUE)
   require(dplyr, quietly=TRUE)
 
+metro=c(1,5,13,14,31,35,59)
 
+# if (fips%in%metro){
+#   data=county_jobs(as.numeric(fips), 2001:2015)
+#
+# } else {
   data=county_jobs(as.numeric(fips), 2001:2015)
   # data=bind_rows(estimates, forecast)
+# }
 
   total_jobs=data%>%
     mutate(jobs=car::recode(totalJobs, "'S'=NA"),

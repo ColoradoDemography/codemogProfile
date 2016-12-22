@@ -18,20 +18,27 @@ require(dplyr, quietly=TRUE)
 fips=as.numeric(fips)
 jobsfips=ifelse(fips==1|fips==5|fips==13|fips==14| fips==31|fips==35|
                              fips==59, 500, fips)
-yrs=c("2005", "2010", "2015", "2020", "2025", "2030")
+if (fips==1|fips==5|fips==13|fips==14|fips==31|fips==35| fips==59){
+  popfips=c(1,5,13,14,31,35,59)
+  }else{
+    popfips=fips
+  }
 
-j=jobs_forecast%>%
-  filter(year %in% yrs)%>%
+yrs=c(2005,2010,2015,2020,2025,2030)
+
+j=county_job_forecast(jobsfips,yrs )%>%
+  # filter(year %in% yrs)%>%
   arrange(countyfips,year)%>%
-  mutate(jobChange=as.numeric(totalJobs-lag(totalJobs)),
+  mutate(countyfips=as.numeric(countyfips),
+         jobChange=as.numeric(totalJobs-lag(totalJobs)),
          jobChangep=jobChange/lag(totalJobs))
-p=county_forecast%>%
-  filter(year %in% yrs)%>%
+p=county_sya(popfips, yrs)%>%
+  # filter(year %in% yrs)%>%
   mutate(countyfips=ifelse(countyfips==1|countyfips==5|countyfips==13|countyfips==14| countyfips==31|countyfips==35|
                            countyfips==59, 500, as.numeric(countyfips)),
          county=ifelse(countyfips==500, "Denver Metropolitan Area", county))%>%
   group_by(countyfips, county, year)%>%
-  summarise(totalPopulation=sum(totalPopulation))%>%
+  summarise(totalPopulation=sum(as.numeric(totalpopulation)))%>%
   arrange(countyfips, year)%>%
   mutate(popChange=totalPopulation-lag(totalPopulation),
          popChangep=popChange/lag(totalPopulation))
