@@ -59,24 +59,13 @@ ms_muni=function(fips, fips2="", countyfips, countyname, state="08", state2="08"
   muni_pop_chng1015=popMuni%>%filter(year==2015)%>%select(popChange)
 
   popCO=county_profile(0, 1990:2015, "totalpopulation")%>%
-    # mutate(countyfips=as.numeric(as.character(countyfips)),
-    #        geonum=as.numeric(as.character(geonum)))%>%
-    # select(geonum, countyfips, year, totalPopulation)%>%
-    # bind_rows(county_hist%>%select(-c(datatype, county)))%>%
     filter(year %in% yrs)%>%
-    # group_by(year)%>%
-    # summarise(totalPop=sum(totalPopulation, na.rm=T))%>%
     mutate(name="Colorado",
            totalpopulation=as.numeric(totalpopulation),
            year=as.numeric(year),
            growthRate=paste0(round(ann_gr(lag(totalpopulation), totalpopulation, year-lag(year)), digits=1),"%"),
            totalPop=comma(totalpopulation))
   popCounty=county_profile(cntynum, 1990:2015, "totalpopulation")%>%
-    # mutate(#year=as.numeric(as.character(year)),
-    #   countyfips=as.numeric(as.character(countyfips)),
-    #   geonum=as.numeric(as.character(geonum)))%>%
-    # select(geonum, countyfips, year, totalPopulation)%>%
-    # bind_rows(county_hist%>%select(-c(datatype, county)))%>%
     filter(year %in% yrs)%>%
     arrange(year)%>%
     mutate(name=county,
@@ -206,8 +195,10 @@ ms_muni=function(fips, fips2="", countyfips, countyname, state="08", state2="08"
 #'  @param state2 The State FIPS to use as comparison.  Defaults to CO.
 #'  @param od The output directory for the graphs being created.
 #'
-cp_county=function(fips, fips2="", state="08", state2="08", od=""){
+cp_county=function(fips, countyname, fips2="", state="08", state2="08", od=""){
   require(codemog, quietly=TRUE)
+  require(codemogProfile, quietly=TRUE)
+  require(codemogAPI, quietly=TRUE)
   require(scales, quietly=TRUE)
   require(rmarkdown, quietly=TRUE)
   require(robR, quietly=TRUE)
@@ -243,32 +234,22 @@ cp_county=function(fips, fips2="", state="08", state2="08", od=""){
   ## This Section Generates the requisite Population TimeSeries
 
 
-  popCO=county_est%>%
-    mutate(countyfips=as.numeric(as.character(countyfips)),
-      geonum=as.numeric(as.character(geonum)))%>%
-    select(geonum, countyfips, year, totalPopulation)%>%
-    bind_rows(county_hist%>%select(-c(datatype, county)))%>%
-    filter(year %in% yrs, countyfips>0)%>%
-    group_by(year)%>%
-    summarise(totalPop=sum(totalPopulation, na.rm=T))%>%
+  popCO=county_profile(0, 1990:2015, "totalpopulation")%>%
+    filter(year %in% yrs)%>%
     mutate(name="Colorado",
+           totalpopulation=as.numeric(totalpopulation),
            year=as.numeric(year),
-           growthRate=paste0(round(ann_gr(lag(totalPop), totalPop, year-lag(year)), digits=1),"%"),
-           totalPop=comma(totalPop))
-  popCounty=county_est%>%
-    mutate(countyfips=as.numeric(as.character(countyfips)),
-      geonum=as.numeric(as.character(geonum)))%>%
-    select(geonum, countyfips, year, totalPopulation)%>%
-    bind_rows(county_hist%>%select(-c(datatype, county)))%>%
-    filter(year %in% yrs, countyfips==cntynum)%>%
+           growthRate=paste0(round(ann_gr(lag(totalpopulation), totalpopulation, year-lag(year)), digits=1),"%"),
+           totalPop=comma(totalpopulation))
+  popCounty=county_profile(cntynum, 1990:2015, "totalpopulation")%>%
+    filter(year %in% yrs)%>%
     arrange(year)%>%
-    mutate(name=countyname$county,
+    mutate(name=county,
            year=as.numeric(year),
-           totalPop=totalPopulation,
-           popChange=comma(totalPop-lag(totalPop)),
-           growthRate=paste0(round(ann_gr(lag(totalPop), totalPop, year-lag(year)), digits=1),"%"),
-           totalPop=comma(totalPop))
-  county_pop_chng1014=popCounty%>%filter(year==2014)%>%select(popChange)
+           totalpopulation=as.numeric(totalpopulation),
+           growthRate=paste0(round(ann_gr(lag(totalpopulation), totalpopulation, year-lag(year)), digits=1),"%"),
+           totalPop=comma(totalpopulation))
+  county_pop_chng1015=popCounty%>%filter(year==2015)%>%select(popChange)
   pop=popCounty%>%
     select(-c(countyfips, growthRate, totalPopulation, popChange))%>%
     mutate(name="county")%>%
@@ -306,19 +287,22 @@ cp_county=function(fips, fips2="", state="08", state2="08", od=""){
   yrs_f=c("2005", "2010", "2015", "2020", "2025", "2030")
   jobsfips=ifelse(cntynum==1|cntynum==5|cntynum==13|cntynum==14| cntynum==31|cntynum==35|
                     cntynum==59, 500, cntynum)
-  j=jobs_forecast%>%
-    filter(year %in% yrs_f)%>%
+  yrs_f=c(2005,2010,2015,2020,2025,2030)
+  jobsfips=ifelse(cntynum==1|cntynum==5|cntynum==13|cntynum==14| cntynum==31|cntynum==35|
+                    cntynum==59, 500, cntynum)
+  j=county_job_forecast(jobsfips, yrs_f)%>%
     arrange(countyfips,year)%>%
     mutate(cntyfips=countyfips,
            jobChange=as.numeric(totalJobs-lag(totalJobs)),
-           jobChangep=jobChange/lag(totalJobs))
-  p=county_forecast%>%
-    filter(year %in% yrs_f)%>%
+           jobChangep=jobChange/lag(totalJobs),
+           countyfips=as.numeric(countyfips))
+  p=county_sya(cntynum, yrs_f)%>%
+    # filter(year %in% yrs)%>%
     mutate(countyfips=ifelse(countyfips==1|countyfips==5|countyfips==13|countyfips==14| countyfips==31|countyfips==35|
                                countyfips==59, 500, as.numeric(countyfips)),
            county=ifelse(countyfips==500, "Denver Metropolitan Area", county))%>%
     group_by(countyfips, county, year)%>%
-    summarise(totalPopulation=sum(totalPopulation))%>%
+    summarise(totalPopulation=sum(as.numeric(totalpopulation)))%>%
     arrange(countyfips, year)%>%
     mutate(popChange=totalPopulation-lag(totalPopulation),
            popChangep=popChange/lag(totalPopulation))
@@ -354,7 +338,7 @@ cp_county=function(fips, fips2="", state="08", state2="08", od=""){
     bind_cols(forecastnumbers)%>%
     bind_cols(popjobsforecast)%>%
     mutate(coli_level=coli$coli_level,
-           countychng_1014=county_pop_chng1014$popChange,
+           countychng_1015=county_pop_chng1015$popChange,
            countyName=as.character(countyname$county),
            ed=paste0(od,"/ed_",fips,".png"),
            agegraph=paste0(od,"/age_",fips,".png"),
