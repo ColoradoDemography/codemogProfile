@@ -252,20 +252,20 @@ cp_county=function(fips, countyname, fips2="", state="08", state2="08", od=""){
            popChange=totalpopulation-lag(totalpopulation))
   county_pop_chng1015=popCounty%>%filter(year==2015)%>%select(popChange)
   pop=popCounty%>%
-    select(-c(countyfips, growthRate, totalPopulation, popChange))%>%
+    select(-c(countyfips, growthRate, popChange))%>%
     mutate(name="county")%>%
     bind_rows(popCO%>%select(-growthRate))%>%
     mutate(geoname=name,
            name=paste(name,year,"pop",sep="_"),
            geonum=as.numeric(paste("108", fips, sep="")))%>%
-    select(-year, -geoname)%>%
+    select(-county:-totalpopulation, -countyfips, -geoname)%>%
     spread(name,totalPop)
   popr=popCounty%>%select(-c(countyfips, totalPop, totalPop, popChange))%>%
     mutate(name="county")%>%
     bind_rows(popCO%>%select(-totalPop))%>%
     mutate(name=paste(name,year,"gr",sep="_"),
            geonum=as.numeric(paste("108", fips, sep="")))%>%
-    select(-year)%>%
+    select(-county:-totalpopulation, -countyfips)%>%
     spread(name,growthRate)
 
   countyjobs=jobchart$data%>%
