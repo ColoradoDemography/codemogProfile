@@ -11,6 +11,7 @@ ms_popage=function(fips, base=12, agegroup="ten"){
 
 require(car, quietly=TRUE)
 require(codemog, quietly=TRUE)
+require(codemogAPI, quietly=TRUE)
 require(ggplot2, quietly=TRUE)
 require(scales, quietly=TRUE)
 require(grid, quietly=TRUE)
@@ -19,18 +20,16 @@ require(tidyr, quietly=TRUE)
 require(dplyr, quietly=TRUE)
 fips=as.numeric(fips)
 
-yrs=c("2015", "2025")
+yrs=c(2015, 2025)
 
-d=county_forecast%>%
-  mutate(agecat=age_cat(county_forecast, "age", groups=agegroup))%>%
+d=county_sya(cntynum, c(2015, 2025))%>%
+  mutate(agecat=age_cat(., "age", groups=agegroup))%>%
   group_by(countyfips,county, year, agecat)%>%
-  summarise(totalPopulation=sum(totalPopulation))%>%
+  summarise(totalpopulation=sum(as.numeric(totalpopulation)))%>%
   ungroup()%>%
-  filter(year %in% yrs)%>%
   group_by(agecat)%>%
   arrange(countyfips, year)%>%
-  mutate(popChange=totalPopulation-lag(totalPopulation))%>%
-  filter(countyfips==fips)
+  mutate(popChange=totalpopulation-lag(totalpopulation))
 
 p=d%>%
   filter(year==2025)%>%

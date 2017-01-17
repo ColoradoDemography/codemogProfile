@@ -144,18 +144,18 @@ ms_muni=function(fips, fips2="", countyfips, countyname, state="08", state2="08"
 
 
   ### Census Pulls Using the API
-  housing=ms_housing(fips, state)%>%
+  housing=ms_housing(fips_t, state)%>%
     gather(type, value,Census.2000:Census.2010,  -geoname:-geonum)%>%
     mutate(name=paste0("hh",var,type))%>%
     select(geonum, geoname, value,name)%>%
     spread(name, value)
-  race=ms_race(fips, state)%>%
+  race=ms_race(fips_t, state)%>%
     gather(type, value,Census.2010:Census.2000,  -geoname:-geonum)%>%
     mutate(name=paste0("race",race,type))%>%
     select(geonum, geoname, value,name)%>%
     mutate(geonum=as.numeric(geonum))%>%
     spread(name, value)
-  mhi=ms_mhi(fips=fips, fips2=fips2, state=state, state2=state2)%>%mutate(geonum=as.numeric(geonum))
+  mhi=ms_mhi(fips=fips_t, fips2=fips2, state=state, state2=state2)%>%mutate(geonum=as.numeric(geonum))
 
   df=inner_join(pop, popr, by="geonum")%>%
     inner_join(housing, by="geonum")%>%
