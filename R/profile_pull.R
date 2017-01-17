@@ -81,7 +81,7 @@ ms_muni=function(fips, fips2="", countyfips, countyname, state="08", state2="08"
                 mutate(name="county"))%>%
     mutate(geoname=name,
            name=paste(name,year,"pop",sep="_"),
-           geonum=as.numeric(paste("108", fips, sep="")),
+           geonum=as.numeric(paste("108", fips_t, sep="")),
            municipality=ifelse(is.na(municipality), county, municipality))%>%
     select(-municipality:-totalpopulation, -countyfips:-geoname)%>%
     spread(name,totalPop)
@@ -92,14 +92,14 @@ ms_muni=function(fips, fips2="", countyfips, countyname, state="08", state2="08"
     bind_rows(popCounty%>%select(-c(countyfips, totalPop))%>%
                 mutate(name="county"))%>%
     mutate(name=paste(name,year,"gr",sep="_"),
-           geonum=as.numeric(paste("108", fips, sep="")))%>%
+           geonum=as.numeric(paste("108", fips_t, sep="")))%>%
     select(-municipality:-totalpopulation, -countyfips:-county)%>%
     spread(name,growthRate)
 
   countyjobs=jobchart$data%>%
     filter(year==2014)%>%
     mutate(county_jobs_2015=comma(jobs,0),
-           geonum=as.numeric(paste("108", fips, sep="")))%>%
+           geonum=as.numeric(paste("108", fips_t, sep="")))%>%
     select(county_jobs_2015, geonum)
   coli=county_coli%>%
     filter(countyfips==cntynum)%>%
