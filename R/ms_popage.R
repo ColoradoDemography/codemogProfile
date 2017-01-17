@@ -22,7 +22,7 @@ fips=as.numeric(fips)
 
 yrs=c(2015, 2025)
 
-d=county_sya(cntynum, c(2015, 2025))%>%
+d=county_sya(fips, c(2015, 2025))%>%
   mutate(agecat=age_cat(., "age", groups=agegroup))%>%
   group_by(countyfips,county, year, agecat)%>%
   summarise(totalpopulation=sum(as.numeric(totalpopulation)))%>%
