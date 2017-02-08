@@ -32,13 +32,15 @@ d=county_sya(fips, c(2015, 2025))%>%
   mutate(popChange=totalpopulation-lag(totalpopulation))
 
 p=d%>%
-  filter(year==2025)%>%
-  ggplot(aes(x=agecat, y=popChange, group=county))+
-  geom_bar(stat="identity",position="dodge" ,fill=rgb(31,74,126, max=255))+
+  # filter(year==2025)%>%
+  ggplot(aes(x=agecat, y=totalpopulation, fill=as.factor(year)))+
+  geom_bar(stat="identity",position="dodge")+
+  scale_fill_manual(values=c(rgb(31,74,126, max=255), rgb(192,80,77,max=255)),
+                    name="Year")+
   scale_y_continuous(label=comma)+
   theme_codemog(base_size=base)+
   theme(axis.text.x=element_text(angle=45, hjust=1))+
-  labs(x="Age Group", y="Population Change", title=paste0(d$county," County Forecast\nChange in Population by Age 2015 to 2025\nSource:State Demography Office"))
+  labs(x="Age Group", y="Population", caption="Source: Colorado State Demography Office")
 
 
 return(p)
