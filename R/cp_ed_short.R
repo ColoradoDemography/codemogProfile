@@ -18,7 +18,7 @@ cp_ed_short=function(fips, state="08", fips2="", state2="08", base=12){
   require(dplyr, quietly=TRUE)
 
 
-  d13p=codemog_api(data="b15003",db="acs1014",geonum=paste("1",state , fips,sep=""),meta="no")
+  d13p=codemog_api(data="b15003",db="acs1115",geonum=paste("1",state , fips,sep=""),meta="no")
   d13p[,7:32]=as.numeric(as.character(d13p[,7:32]))
   d13pm=d13p%>%
     mutate(ed1=b15003002+b15003003+b15003004+b15003005+b15003006+b15003007+b15003008+b15003009+b15003010+b15003011+
@@ -36,7 +36,7 @@ cp_ed_short=function(fips, state="08", fips2="", state2="08", base=12){
     select(-statename)%>%
     mutate(geoname=stri_trans_general(geoname,id="Title"))
 
-  d13c=codemog_api(data="b15003",db="acs1014",geonum=paste("1",state2 , fips2,sep=""),meta="no")
+  d13c=codemog_api(data="b15003",db="acs1115",geonum=paste("1",state2 , fips2,sep=""),meta="no")
   d13c[,7:32]=as.numeric(as.character(d13c[,7:32]))
   d13cm=d13c%>%
     mutate(ed1=b15003002+b15003003+b15003004+b15003005+b15003006+b15003007+b15003008+b15003009+b15003010+b15003011+
@@ -62,7 +62,7 @@ cp_ed_short=function(fips, state="08", fips2="", state2="08", base=12){
                       name="Geography")+
     theme_codemog(base_size=base)+
     theme(axis.text.x=element_text(angle=0))+
-    labs(x="Educational Attainment", y="Population", title="Educational Attainment for 25 and Older \nSource: ACS 2014 5-Year File")
+    labs(x="Educational Attainment", y="Population", title="Educational Attainment for 25 and Older \nSource: ACS 2015 5-Year File")
   return(p)
 
 }
