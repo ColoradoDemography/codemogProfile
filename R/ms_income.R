@@ -64,7 +64,7 @@ p=hhinc%>%ggplot(aes(x=cat, y=as.numeric(p), fill=geoname))+
                     name="Area")+
   theme_codemog(base_size=base)+
   theme(axis.text.x=element_text(angle=45, hjust=1))+
-  labs(x="Income (in 2014 Dollars)", y="Percentage", title="Household Income Distribution\n Source: 2015 ACS 5-Year File")
+  labs(x="Income (in 2015 Dollars)", y="Percentage", title="Household Income Distribution\n Source: 2015 ACS 5-Year File")
 
 return(p)
 }
