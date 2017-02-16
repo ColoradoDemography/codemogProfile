@@ -19,15 +19,20 @@ require(dplyr, quietly = TRUE)
 require(tidyr, quietly = TRUE)
 
 fips=as.numeric(fips)
-yrs=2005:2015
+yrs=2005:2018
+yrs_f=2015:2018
 
-  pd=county_profile(fips, yrs, vars=c("netmigration", "naturalincrease"))%>%
-  mutate(netmigration=as.numeric(netmigration),
-         naturalincrease=as.numeric(naturalincrease))%>%
+comp=county_coc(fips, yrs)%>%
+  mutate(netmigration=as.numeric(netmig),
+         naturalincrease=as.numeric(births)-as.numeric(deaths))%>%
+  select(countyfips, datatype, year, netmigration,naturalincrease)%>%
   gather(variable, value, -countyfips:-year)%>%
+  mutate(year=ifelse(year>=2016, paste0(year,"*"), year))
+
+  pd=comp%>%
   ggplot(aes(x=year, y=value, fill=variable))+
   geom_bar(stat="identity",position="dodge")+
-  scale_x_continuous(breaks=yrs)+
+  # scale_x_continuous(breaks=yrs)+
   scale_y_continuous(labels=comma)+
   scale_fill_manual(values=c(rgb(31,74,126, max=255), rgb(192,32,38,max=255)),
                     name="",
@@ -36,12 +41,20 @@ yrs=2005:2015
   theme_codemog(base_size=base)+
   theme(axis.text.x=element_text(angle=90),
         legend.key.size=unit(rel(1), "mm"))+
-  labs(y="Value", x= "Year")
+  labs(y="Value", x= "Year", caption="*Forecast\nSource: State Demography Office")
 
-pd2=county_profile(fips, yrs, vars="totalpopulation")%>%
-  mutate(totalpopulation=as.numeric(totalpopulation))%>%
-  ggplot()+
+pop=county_sya(fips, yrs)%>%
+  group_by(countyfips, year)%>%
+  summarize(totalpopulation=sum(as.numeric(totalpopulation)))%>%
+  filter(year<=max(yrs)-3)
+
+pop_f=county_sya(fips, yrs_f)%>%
+  group_by(countyfips, year)%>%
+  summarize(totalpopulation=sum(as.numeric(totalpopulation)))
+
+pd2=ggplot(pop)+
   geom_line(aes(x=year, y=totalpopulation), color=rgb(0,149,58, max=255), size=1)+
+  geom_line(data=pop_f, aes(x=year, y=totalpopulation), color=rgb(0,149,58, max=255), size=1, linetype=2)+
   scale_x_continuous(breaks=yrs)+
   scale_y_continuous(labels=comma)+
   theme_codemog(base_size=base)+
