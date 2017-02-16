@@ -355,3 +355,6 @@ cp_county=function(fips, countyname, fips2="", state="08", state2="08", od=""){
   # rmarkdown::render(system.file("misc", "muni_profile_charts.Rmd", package = "codemogProfile"), output_file=paste0(od,"/muniprofileCharts",fips,".html"))
   return(df)
 }
+
+
+
