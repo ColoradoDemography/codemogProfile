@@ -21,7 +21,7 @@ ms_muni=function(fips, fips2="", countyfips, countyname, state="08", state2="08"
 
 
   # yrs=c("1990","1995","2000","2010","2014","2015","2020","2025","2030","2035","2040")
-  yrs=c(1990,1995,2000,2010,2014,2015,2020,2025,2030,2035,2040)
+  yrs=c(1990,1995,2000,2010,2015,2020,2025,2030,2035,2040)
   cntynum=as.numeric(countyfips)
   # countyname=county_est%>%filter(countyfips==cntynum, year==2014)%>%select(county)
   ## Graphs
@@ -207,7 +207,7 @@ cp_county=function(fips, countyname, fips2="", state="08", state2="08", od=""){
   require(dplyr, quietly=TRUE)
 
 
-  yrs=c("1990","1995","2000","2010", "2014","2015","2020","2025","2030","2035","2040")
+  yrs=c("1990","1995","2000","2010","2015","2020","2025","2030","2035","2040")
   cntynum=as.numeric(fips)
   # countyname=county_est%>%filter(countyfips==cntynum, year==2014)%>%select(county)
   ## Graphs
