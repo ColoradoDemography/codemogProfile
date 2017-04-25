@@ -20,13 +20,15 @@ ms_muni=function(fips, fips2="", countyfips, countyname, state="08", state2="08"
   require(dplyr, quietly=TRUE)
 
 
+  fips_t=fips
+
   # yrs=c("1990","1995","2000","2010","2014","2015","2020","2025","2030","2035","2040")
   yrs=c(1990,1995,2000,2010,2015,2020,2025,2030,2035,2040)
   cntynum=as.numeric(countyfips)
   # countyname=county_est%>%filter(countyfips==cntynum, year==2014)%>%select(county)
   ## Graphs
   # This set makes all of the graphs and saves them to the output directory
-  fips_t=fips
+
   fips=as.numeric(fips)
   ed=ms_ed(fips=fips_t,fips2=fips2, state=state, state2=state2, base=6)+theme(legend.text=element_text(size=7.2), legend.key.size=unit(1, "mm"), legend.margin=unit(0, "mm"), panel.margin=unit(0, "mm"))
   ggsave(filename=paste0("ed_",fips_t,".png"), ed, path=od, width=96, height=48, units="mm")
@@ -167,14 +169,14 @@ ms_muni=function(fips, fips2="", countyfips, countyname, state="08", state2="08"
     mutate(coli_level=coli$coli_level,
            munichng_1015=muni_pop_chng1015$popChange,
            countyName=as.character(countyname),
-           ed=paste0(od,"/ed_",fips,".png"),
-           agegraph=paste0(od,"/age_",fips,".png"),
-           hhgraph=paste0(od,"/hh_",fips,".png"),
-           incdistchart=paste0(od,"/incdist_",fips,".png"),
-           popchart=paste0(od,"/popchart_",fips,".png"),
-           jobchart=paste0(od,"/jobchart_",fips,".png"),
-           forecastchart=paste0(od,"/forecastchart_",fips,".png"),
-           popagechart=paste0(od,"/popagechart_",fips,".png"),
+           ed=paste0(od,"/ed_",fips_t,".png"),
+           agegraph=paste0(od,"/age_",fips_t,".png"),
+           hhgraph=paste0(od,"/hh_",fips_t,".png"),
+           incdistchart=paste0(od,"/incdist_",fips_t,".png"),
+           popchart=paste0(od,"/popchart_",fips_t,".png"),
+           jobchart=paste0(od,"/jobchart_",fips_t,".png"),
+           forecastchart=paste0(od,"/forecastchart_",fips_t,".png"),
+           popagechart=paste0(od,"/popagechart_",fips_t,".png"),
            map=paste0(od,"/map_",as.character(countyname),".png"))
   names(df)[132:140]=c("@ed", "@agegraph", "@hhgraph", "@incdistchart", "@popchart", "@jobchart", "@forecastchart", "@popagechart", "@map")
   # save.xlsx(paste(od, "/rawdata_",fips,".xlsx", sep=""), pop, popr, housing, hh$data, race, mhi, ed$data, age$data, incdist$data, jobchart$data)
