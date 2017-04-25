@@ -21,7 +21,7 @@ ms_muni=function(fips, fips2="", countyfips, countyname, state="08", state2="08"
 
 
   # yrs=c("1990","1995","2000","2010","2014","2015","2020","2025","2030","2035","2040")
-  yrs=c(1990,1995,2000,2010,2014,2015,2020,2025,2030,2035,2040)
+  yrs=c(1990,1995,2000,2010,2015,2020,2025,2030,2035,2040)
   cntynum=as.numeric(countyfips)
   # countyname=county_est%>%filter(countyfips==cntynum, year==2014)%>%select(county)
   ## Graphs
@@ -97,7 +97,7 @@ ms_muni=function(fips, fips2="", countyfips, countyname, state="08", state2="08"
     spread(name,growthRate)
 
   countyjobs=jobchart$data%>%
-    filter(year==2014)%>%
+    filter(year==2015)%>%
     mutate(county_jobs_2015=comma(jobs,0),
            geonum=as.numeric(paste("108", fips_t, sep="")))%>%
     select(county_jobs_2015, geonum)
@@ -207,7 +207,7 @@ cp_county=function(fips, countyname, fips2="", state="08", state2="08", od=""){
   require(dplyr, quietly=TRUE)
 
 
-  yrs=c("1990","1995","2000","2010", "2014","2015","2020","2025","2030","2035","2040")
+  yrs=c("1990","1995","2000","2010","2015","2020","2025","2030","2035","2040")
   cntynum=as.numeric(fips)
   # countyname=county_est%>%filter(countyfips==cntynum, year==2014)%>%select(county)
   ## Graphs
