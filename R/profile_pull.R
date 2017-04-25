@@ -176,7 +176,7 @@ ms_muni=function(fips, fips2="", countyfips, countyname, state="08", state2="08"
            forecastchart=paste0(od,"/forecastchart_",fips,".png"),
            popagechart=paste0(od,"/popagechart_",fips,".png"),
            map=paste0(od,"/map_",as.character(countyname),".png"))
-  names(df)[138:146]=c("@ed", "@agegraph", "@hhgraph", "@incdistchart", "@popchart", "@jobchart", "@forecastchart", "@popagechart", "@map")
+  names(df)[132:140]=c("@ed", "@agegraph", "@hhgraph", "@incdistchart", "@popchart", "@jobchart", "@forecastchart", "@popagechart", "@map")
   # save.xlsx(paste(od, "/rawdata_",fips,".xlsx", sep=""), pop, popr, housing, hh$data, race, mhi, ed$data, age$data, incdist$data, jobchart$data)
   # rmarkdown::render(system.file("misc", "muni_profile_charts.Rmd", package = "codemogProfile"), output_file=paste0(od,"/muniprofileCharts",fips,".html"))
   return(df)
